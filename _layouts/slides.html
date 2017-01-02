@@ -1,0 +1,26 @@
+<html>
+<head>
+  <link rel="stylesheet" href="/assets/revealjs/css/reveal.css">
+  <link rel="stylesheet" href="/assets/revealjs/css/theme/{% if page.theme %}{{ page.theme }}{% else %}white{% endif %}.css" id="theme">
+
+</head>
+<body>
+  <div class="reveal">	<div class="slides">{{ content }}</div></div>
+  <script src="/assets/revealjs/js/reveal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+  <script>
+    var reveal_config = {{ page.reveal_config | jsonify }} || {};
+    Reveal.initialize({
+      dependencies: [
+        { src: '/assets/revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: '/assets/revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: '/assets/revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: '/assets/revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: '/assets/revealjs/plugin/zoom-js/zoom.js', async: true },
+        { src: '/assets/revealjs/plugin/notes/notes.js', async: true },
+      ]
+    });
+    Reveal.configure(reveal_config)
+  </script>
+</body>
+</html>
