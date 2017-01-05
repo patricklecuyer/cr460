@@ -4,4 +4,15 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: default
 ---
-[Notes de cours](slides.html)
+<ul>
+  {% for slide in site.slides %}
+  <li>
+    <h1>
+      <a href="{{ slide.url | prepend: site.baseurl | remove: 'index' }}">
+        {{ slide.title }}
+      </a>
+    </h1>
+    <p> {{ slide.description }}</p>
+  </li>
+  {% endfor %}
+</ul>
