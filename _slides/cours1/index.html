@@ -1,7 +1,7 @@
 ---
 title: Cours 1 - Introduction
 description: Introduction de l'enseignant et de la matière du cours
-theme: night
+theme: black
 date: 2017-1-09
 reveal_config:
   controls: true
@@ -40,15 +40,18 @@ reveal_config:
   <section data-markdown>
     ## Patrick Lécuyer
 
-     VP Architecure Sécurité - IaaS et PaaS - Morgan Stanley
+    VP Architecure Sécurité - IaaS et PaaS - Morgan Stanley
 
-    18 ans d'expérience en TI dans différentes industries
+    18 ans d'expérience en TI dans différentes industries:
 
     - Cirque du Soleil
     - Domtar
-    - Banque Nationale
-    - Banque Laurentienne
-    - Valeurs Mobilières Desjardins
+    - Secteur financier
+    - Agences de santé
+
+    Membre de Customer Advisory Boards:
+    - Google Cloud Platform
+    - Bracket Computing
   </section>
   <section data-markdown>
     ##Comment me rejoindre?
@@ -57,7 +60,7 @@ reveal_config:
 
     Par courriel: [patrick.lecuyer@polymtl.ca](mailto:patrick.lecuyer@polymtl.ca) - Prevoir 48 heures
 
-    Slack: [cr340.slack.com](https://cr340.slack.com)
+    Slack: [cr460.slack.com](https://cr460.slack.com)
 
     Twitter: [@patricklecuyer](https://twitter.com/patricklecuyer)
 
@@ -66,26 +69,227 @@ reveal_config:
 </section>
 <section>
   <section data-markdown>
-    # Structure du cours
+    # Le cours
+  </section>
+  <section data-markdown>
+  ## Objectifs
+  *	de différencier les technologies infonuagiques
+  *	d’expliquer les concepts de sécurité infonuagique
+  *	de planifier le déploiement sécuritaire d’une application vers un fournisseur infonuagique public;
+  *	de proposer une solution complète basée sur des technologies infonuagiques
+  *	de créer et déployer une application dans un environnement PaaS public
+  *	de créer un environnement redondant et sécuritaire chez un fournisseur IaaS public
+  *	d’identifier les failles de sécurité dans un déploiement infonuagique
+
+  </section>
+  <section data-markdown>
+    ##Structure
+
+    |Cours|Contenu|
+    |-----|-------|
+    |1| Introduction à l'infonuagique|
+    |2| Introduction aux déploiements PaaS|
+    |3-4| Introduction aux déploiements IaaS|
+    |5-7| Contenants et microservices|
+    |8-11| Sécurité|
+    |9 | Présentation Google - Sécurité des contenants|
+    |12| Présentation Google - Machine Learning|
+    |13| Révision|
+  </section>
+  <section data-markdown>
+  ## Devoirs
+  3 courts quiz à choix de réponse, donné 1 semaine avant la date de remise.  Ces devoirs correspondent aux sections importantes du cours
+
+  |Quiz|Date|
+  |-----|-------|
+  |1| 6 Février|
+  |2| 27 février|
+  |3| 3 avril|
+  </section>
+  <section data-markdown>
+  ## Travail de session
+
+  Travail pratique à développement lié au laboratoire.
+
+  **Présentation du travail**: 23 janvier
+
+  **Date de remise**: 10 avril
+
+
+
+  </section>
+  <section data-markdown>
+  ## Examen Final
+
+   * En salle (Polytechnique et Québec)
+   * Informatisé à choix de réponse
+   * Documentation permise
+   * Information plus en détails a venir à la fin de la session
+
+   ** Assurez-vous d'être dans le bon groupe!! **
+   * Groupe 01: Montréal
+   * Groupe 11: Québec
+
+   ** Date de l'examen**: 24 avril
+ </section>
+  <section data-markdown>
+    ##Laboratoires
+    * Laboratoires pratiques durant la majorité des cours
+    * Les laboratoires individuels ne sont pas évalués, mais permettent de mener au trvail de session
+    * Le contenu des laboratoires est matière à examen
   </section>
 </section>
 <section>
   <section data-markdown>
     # Les outils
   </section>
+  <section data-markdown>
+  ## Moodle
+
+Site standard Moodle de Polytechnique. Ce site sera utilisé pour les devoirs, les remises de laboratoires, l'accès a via et l'accès aux fichiers du cours.  Une version PDF des notes de cours sera aussi disponible pour chaque séance de cours.
+</section>
+<section data-markdown>
+## Notes en ligne
+
+Site: http://cr460.patl.io
+
+Sources: https://github.com/patricklecuyer/cr460/
+
+Les *pull requests* sont la bienvenue.  Les contrinutions des étudiants seront mentionné dans les future version des cours.
+</section>
+<section data-markdown>
+## Slack
+
+Plateforme de communication et de collaboration.
+
+Cette plateforme sera utilisée en remplacement des forums Moodle dans le cadre de ce cours.
+
+Inscription:  https://cr460.patl.io/signup
+
+Accès: https://cr460.slack.com
+
+**IMPORTANT**
+
+Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
+</section>
+<section data-markdown>
+#Demo Slack
+</section>
+
+  <section data-markdown>
+    ## Github
+
+    Un compte gratuit Github sera nécessaire pour la remise du travail de session, et l'exécution des laboratoires en cours de session.
+
+    Enregistrement: https://www.github.com
+  </section>
+  <section data-markdown>
+    # Demo Github
+  </section>
+  <section data-markdown>
+    ## Terraform
+
+    Terraform sera l'outil d'automatisation utilisé pour les déploiements dans le cadre du cours.
+
+    Installation et documentation: https://www.terraform.io
+  </section>
+</section>
 </section>
 <section>
   <section data-markdown>
     # Qu'est-ce que l'infonuagique
+
+    [NIST800-145](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf)
+  </section>
+  <section data-markdown>
+    ## Définition
+
+    * Couche matérielle:
+      * Serveurs
+      * Stockage
+      * Réseautique
+    * Couche d'abstraction:
+      * Logiciel permettant de répondre aux caractéristiques
+    * Cinq caractéristiques essentielles: * Libre-service sur demande
+      * Accès réseau
+      * Élasticité rapide
+      * Mise en commun des ressources
+      * Service mesuré)
+  </section>
+  <section data-markdown>
+    ## Libre-service sur demande
+
+    Un client peut unilatéralement provisionner des ressources informatiques, tel que de la capacité de traitement et du stockage réseau, autant que nécessaire sans nécessiter une interaction humaine avec chacun des fournisseurs de service.
+
+  </section>
+  <section data-markdown>
+    ## Accès réseau
+
+    Les ressources sont disponibles depuis un réseau et accessibles en utilisant des manières standards qui promeut l’utilisation hétérogène de plateformes client légères ou lourdes (c.-à-d. téléphones intelligents, tablettes, portables, postes de travail ).
+  </section>
+  <section data-markdown>
+    ## Élasticité rapide
+
+    Les ressources peuvent être provisionnés de manière élastique et libérer, dans certains cas automatiquement, pour facilement croître où décroît la taille de l’environnement en fonction de la demande. Du point de vue du client, les capacités de provisionnement peuvent paraître illimitées et le client peut s’en approprier, peu importe la quantité requise et à n’importe quel moment.
+  </section>
+  <section data-markdown>
+    ## Mise en commun des ressources
+
+    Les ressources informatiques du fournisseur sont mises en commun pour servir plusieurs clients dans un modèle multilocataire (multi-tenant), avec différentes ressources physiques et virtuelles assignées et réassignées en fonction de la demande par les clients. Cette configuration donne un sentiment d’indépendance envers la localisation physique des ressources, le client n’ayant généralement aucun contrôle ou connaissance de la localisation géographique précise des ressources fournies, mais peut être en mesure de la spécifier à un plus haut niveau d’abstraction. (C.-à-d., pays, état, ou centre de données).
+
+  </section>
+  <section data-markdown>
+    ## Service mesuré
+
+    Les systèmes d’infonuagique contrôlent et optimisent automatiquement l’utilisation des ressources en tirant avantage d’un système de mesure de la capacité à un niveau d’abstraction approprié pour le type de service (,i.e stockage, traitement des données, bande passante, comptes usagers actifs).  L’utilisation des ressources peut être surveillée, contrôlée et des rapports peuvent être produits, fournissant une transparence autant pour le fournisseur que pour le client.
+
   </section>
 </section>
 <section>
   <section data-markdown>
     # Modèles de service
   </section>
+  <section data-markdown>
+    ## Infrastructure as a Service (IaaS)
+
+    Les services fournis au client sont la capacité de provisionner des ressources de stockage, de traitement, de réseautique et d’autres ressources informatiques fondamentales, sur lesquelles le client est en mesure de déployer et d’exécuter le logiciel de son choix, incluant des systèmes d’exploitation et des applications.  Le client ne contrôle et ne gère pas l’infrastructure nuagique sous-jacente, mais la contrôle sur les systèmes d’exploitation, le stockage et les applications déployés, incluant possiblement un contrôle limité sur certaines composantes réseautiques (c.-à-d. pare-feu)
+  </section>
+  <section data-markdown>
+    ## Platform as a Service (PaaS)
+
+    Les services fournis au client sont la capacité de déployer dans une infrastructure nuagique des applications créées ou acquises par le client.  Ces applications doivent être développées en utilisant des langages de programmation, des bibliothèques, des services et des outils supportés par le fournisseur.  Le client ne contrôle et ne gère pas l’infrastructure nuagique sous-jacente, incluant les serveurs, réseaux, systèmes d’exploitation ou stockage, mais la contrôle sur les applications déployées et possiblement sur les paramètres de configuration de l’environnement d’hébergement de l’application.
+
+  </section>
+  <section data-markdown>
+    ## Software as a Service (SaaS)
+
+     Le service rendu au client est l’utilisation des applications du fournisseur s’exécutant sur une infrastructure nuagique.  Les applications sont accessibles depuis divers appareils clients, soit à travers un client léger tel qu’un fureteur web (c.-à-d. une interface courriel sur le web) ou une interface applicative. Le client ne gère et ne contrôle pas l’infrastructure nuagique sous-jacente incluant le réseau, le stockage, le serveur, les systèmes d’exploitation ou même des portions individuelles des fonctionnalités de l’application, avec l’exception possible de contrôle sur un sous-ensemble limité de la configuration propre à l’utilisateur.
+  </section>
 </section>
 <section>
   <section data-markdown>
     # Modèles de déploiement
   </section>
+  <section data-markdown>
+    ## Nuage public
+
+    L’infrastructure nuagique est provisionnée pour l’utilisation générale du grand public.  Elle peut être possédée, gérée et opérée par une entreprise ou une organisation académique ou gouvernementale.  Elle est déployée à l’intérieur des bureaux du fournisseur de service.
+  </section>
+  <section data-markdown>
+    ## Nuage privé
+
+    L’infrastructure nuagique est provisionnée pour l’utilisation exclusive d’une seule organisation comprenant plusieurs clients (c.-à-d. unités d’affaires). Cette infrastructure peut être possédée, gérée et opérée par l’organisation elle-même, une tierce partie, ou une combinaison des deux et peut exister à l’intérieur ou à l’extérieur des bureaux de l’organisation.
+  </section>
+<section data-markdown>
+  ##Nuage communautaire
+
+   L’infrastructure nuagique est provisionnée pour l’utilisation exclusive d’une communauté de client d’organisations ayant des caractéristiques communes (c.-à-d. mission, besoins en sécurité, politiques, besoins de conformité). Elle peut être possédée, gérée et opérée par une ou plusieurs des organisations faisant partit de la communauté, une tierce partie ou une combinaison des deux, et peut exister à l’intérieur ou a l’extérieur des bureaux des organisations.
+
+</section>
+<section data-markdown>
+
+##Nuage hybride
+
+L’infrastructure nuagique est un ensemble d’au moins deux infrastructures nuagiques distinctes qui demeurent des entités indépendantes, mais sont liés par l’utilisation de technologies propriétaires ou standard qui permettent une portabilité des données et des applications.
+</section>
 </section>
