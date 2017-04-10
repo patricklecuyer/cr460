@@ -23,7 +23,45 @@ reveal_config:
   <section>
     <section data-markdown>
       # Démo - Deploiement de base
+      Google Cloud Platform
+      Projet
+      Par défaut le créateur est propriétaire mais il faut créer des rôles si d’autres personnes ou machines doivent avoir accès au projet.
+      Dans tous les écrans /interfaces, on peut voir l’équivalent en appel d’api ou ligne de commande, utile pour faire des appels par Terraform et interagir avec l’interface de Google
+      gcloud commandline ou via application +api.
     </section>
+
+    <section data-markdown>
+      # Démo - GCP - Réseaux
+      Pour Google, les sous-réseaux représentent des zones, emplacements physiques.  Nos réseaux sont liés à l'un ou l’autre des centres de données Google.
+      Google donne un ensemble d’adresse IP, assignées par zones.  Il faut ajouter un réseau adéquat pour la tâche à faire.
+      En mode auto, Google s’en charge, en manuel il faut créer les sous-réseaux.
+      Auto crée seulement un sous-réseau par région, nous avons plutôt besoin d’un sous-réseau par rôle, plus facile pour les règles de pare-feu si on veut des accès externes.
+      Dans un centre de données, il y a un réseau interne, externe, dmz, etc.
+      Pas de VLSM, on ne peut pas faire de vlan mais on peut modifier les tables de routage.
+      La VM ne verra pas le réseau, il faut donc l’assigner à un sous-réseau.
+      Aucune règle de pare-feu = aucun trafic entrant (deny all par défaut).
+    </section>
+
+    <section data-markdown>
+      # Démo - GCP - Instance
+      Une instance est une VM de serveur, on peut également faire des modèles pour les créer automatiquement, plusieurs du même modèle et créer des règles pour créer ou détruire des machines selon différents marqueurs de surveillance (élasticité).
+      On peut utiliser une image standard de disque de démarrage, fournie par Google, ou utiliser notre propre image pour un système sur-mesure et paramétrer les caractéristiques physiques de la machine (cpu, ram etc, réseau, clé SSH).
+    </section>
+
+    <section data-markdown>
+      # Démo - GCP - Groupe
+    </section>
+
+    <section data-markdown>
+      # Démo - GCP - Load Balancer
+
+    </section>
+
+    <section data-markdown>
+      # Démo - GCP - Auto-Scaling
+
+    </section>
+
   </section>
   <section>
     <section data-markdown>

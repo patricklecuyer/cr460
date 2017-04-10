@@ -98,7 +98,7 @@ reveal_config:
   </section>
   <section data-markdown>
   ## Devoirs
-  3 courts quiz à choix de réponse, donné 1 semaine avant la date de remise.  Ces devoirs correspondent aux sections importantes du cours
+  3 courts quiz à choix de réponses, donnés 1 semaine avant la date de remise.  Ces devoirs correspondent aux sections importantes du cours
 
   |Quiz|Date|
   |-----|-------|
@@ -155,7 +155,7 @@ Site: http://cr460.patl.io
 
 Sources: https://github.com/patricklecuyer/cr460/
 
-Les *pull requests* sont la bienvenue.  Les contrinutions des étudiants seront mentionné dans les future version des cours.
+Les *pull requests* sont les bienvenues.  Les contributions des étudiants seront mentionnées dans les futures versions des cours.
 </section>
 <section data-markdown>
 ## Slack
@@ -215,19 +215,30 @@ Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
       * Serveurs
       * Stockage
       * Réseautique
+  </section>
+
+  <section>
     * Couche d'abstraction:
-      * Logiciel permettant de répondre aux caractéristiques
+      * Logiciel permettant de répondre aux caractéristiques essentielles
+      * Cache la couche physique au client infonuagique.
+      * Sert d’interface pour le client afin d’accéder aux caractéristiques.
+  </section>
+
+  <section>
     * Cinq caractéristiques essentielles:
       * Libre-service sur demande
       * Accès réseau
       * Élasticité rapide
       * Mise en commun des ressources
-      * Service mesuré)
+      * Service mesuré
   </section>
   <section data-markdown>
     ## Libre-service sur demande
 
-    Un client peut unilatéralement provisionner des ressources informatiques, tel que de la capacité de traitement et du stockage réseau, autant que nécessaire sans nécessiter une interaction humaine avec chacun des fournisseurs de service.
+    Un client peut unilatéralement (au moment et en quantité/manière voulue) provisionner des ressources informatiques:
+     capacité de traitement / stockage / réseau, autant que nécessaire sans nécessiter une interaction humaine avec chacun des fournisseurs de service.
+   Le client décide lui-même sans le FSI.
+   Rien de pré-alloué mais FSI décide du type de ressource qu’il offre.
 
   </section>
   <section data-markdown>
@@ -238,7 +249,11 @@ Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
   <section data-markdown>
     ## Élasticité rapide
 
-    Les ressources peuvent être provisionnés de manière élastique et libérer, dans certains cas automatiquement, pour facilement croître où décroît la taille de l’environnement en fonction de la demande. Du point de vue du client, les capacités de provisionnement peuvent paraître illimitées et le client peut s’en approprier, peu importe la quantité requise et à n’importe quel moment.
+    Les ressources peuvent être provisionnés de manière élastique et libérer, dans certains cas automatiquement, pour facilement croître où décroître la taille de l’environnement en fonction de la demande.
+    Du point de vue du client, les capacités de provisionnement peuvent paraître illimitées et le client peut s’en approprier, peu importe la quantité requise et à n’importe quel moment.
+    Utilisation hétérogène de plateformes client, légères ou lourdes (téléphone intelligent, tablette, portable, postes de travail).
+    Pas besoin d’accès physique direct.
+    Utilise des API pour pouvoir utiliser plusieurs clients.
   </section>
   <section data-markdown>
     ## Mise en commun des ressources
@@ -256,6 +271,7 @@ Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
 <section>
   <section data-markdown>
     # Modèles de service
+    Définissent à quel niveau se trouve la couche d’abstraction.  Quelles ressources sont offertes au client (proximité de la couche matérielle).
   </section>
   <section data-markdown>
     ## Infrastructure as a Service (IaaS)

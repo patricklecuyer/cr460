@@ -17,13 +17,52 @@ reveal_config:
 </section>
 <section>
   <section data-markdown>
-    # Démo - Github
+    # Mode PaaS - Déploiement de code applicatif
   </section>
+
+  <section data-markdown>
+    # Démo - Github
+     Outil de gestion de code source
+  </section>
+
+  <section data-markdown>
+    # Démo - Github - Repo
+     Repo est un système de fichiers.  Commit crée une version à laquelle on peut revenir dans le futur, permet les rollback et la création de versions un peu différentes, doit spécifier le contexte du commit.
+     Cloner un repo localement permet de travailler le code et tester avant de le commit pour publier (Commit and push, commit est juste local et push envoie au serveur).
+     Donc on a un endroit pour pousser des fichiers, les modifier et garder une historique.  Le processus de commit permet au repo de savoir le moment dans le temps ou le code a été modifié.
+  </section>
+
+  <section data-markdown>
+    # Démo - Github - Branch
+     Le concept de branche permet d’avoir plusieurs versions du code existant en parallèle.
+     Avant de pousser le code en production, il est bien de passer par un environnement de staging / assurance qualité afin de ne pas briser l'environnement de production.
+  </section>
+
+  <section data-markdown>
+    # Démo - Github - Pull Request / Fork
+      Le pull request est une demande visant à amener le contenu d’une branche plus basse vers le haut.
+      Le processus comprend des vérifications, notamment choisir quelles versions de fichiers à conserver; ceci « efface » la branche enfant.
+      Un fork permet de prendre un repo et d’en faire une copie dans notre repo personnel, le modifier et ensuite faire un pull request au repo principal.
+      Attention aux droits de modifications selon la branche.
+  </section>
+
 </section>
 <section>
   <section data-markdown>
     # Démo - Heroku
+    Fournisseur Paas
+    Permet de rouler du code sans se soucier de l’environnement / infrastructure.
   </section>
+
+  <section data-markdown>
+    # Démo - Heroku
+    Les applications sont les contenants où on pousse le code pour ensuite l’exécuter.
+    Premièrement il faut créer une coquille vide, ensuite on établit un lien entre Heroku et le repo (pipeline).
+    Procfile sert à définir la commande à rouler, sert pour qu'Heroku sache quoi faire avec le code dans le repo (process file).
+    Dans Heroku, il faut choisir une méthode de déploiement.  On peut lier différents comptes et même configurer un déploiement automatique lorsque le code est modifié.
+    Heroku peut être dirigé afin de prendre du code diffèrent à un moment diffèrent et le rouler sur un url diffèrent. 
+  </section>
+
 </section>
 <section>
   <section data-markdown>
