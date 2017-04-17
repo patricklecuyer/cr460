@@ -1,6 +1,6 @@
 ---
-title: Cours 11 - Revue de sécurité infonuagique
-description: Processus de revue de sécurité infonuagique
+title: Cours 11 - Docker et Kubernetes
+description: Sécuriser déploiement WordPress
 theme: night
 date: 2017-3-27
 reveal_config:
@@ -15,18 +15,174 @@ reveal_config:
     ## Cours 11
   </section>
 </section>
+
 <section>
   <section data-markdown>
-    # Processus de revue de sécurité
+    # Retour cours 10
+    Suite du labo
+  </section>
+
+  <section data-markdown>
+    ## Cas DB WordPress
+    La DB roule en contenant mais comme il est éphémère, si on le tue et qu’on le repart, la DB sera vide. Contenu DB et configuration faite par wordpress.
+    Solution 1 : rendre le disque de la DB persistant.
+    On n’a pas de manière de configurer WordPress à moins de lui dire manuellement comment; le fichier de configuration WP n’est pas configuré par défaut donc quand le contenant part, il ne sait pas où est la DB.
+    Particulièrement utile quand on sera dans le cloud pour scaler.
+    On ne veut pas tout refaire si le contenant se déplace; on pourra aussi sécuriser en n’ayant pas besoin de donner un accès en écriture à tout le monde dans /var/www/html/wordpress pour que l’installateur WP mette son fichier de configuration au bon endroit.
+  </section>
+
+  <section data-markdown>
+    ## Important pour la suite du labo
+    Outils de ligne de commande de Google Cloud.
+    Installer / mettre à jour Google cloud sdk.
+    gcloud init pour initialiser la configuration, créer une nouvelle, login, choisir projet, zone par défaut.
+    gcloud components install kubectl
+  </section>
+
+
+</section>
+
+<section>
+  <section data-markdown>
+    # Volumes
+  </section>
+  <section data-markdown>
+    ## Concept de volumes
+    Dans docker et Kubernetes par extension, il y a un concept de volumes.
+    Un volume est un endroit où on pourra lier le disque du contenant et le disque du FS local.
+    Pour tel répertoire voici où le stocker sur la machine locale.
+    Relativement simple, par défaut on a simplement besoin de le définir dans le docker-compose pour utilisation locale.
+    Modifie le fonctionnement du contenant, il conservera à un endroit configuré automatiquement par l’engin Docker si on ne lui dit pas où le mettre.
+    Sinon, on peut lui mettre un chemin local pour référer sur la machine locale, tout ce qui est dans le répertoire local sera monté dans le contenant sur le chemin donné.
+    La configuration de DB WP n’est pas unattended donc il la perd mais il conserve le contenu de la DB.
+    Très important, on ne veut pas des volumes partout car on veut que le contenant soit le plus flexible possible mais dans le cas de DB on n’a pas le choix d’avoir de l’information persistante.
+  </section>
+
+  <section data-markdown>
+    ## Configuration WordPress
+    Pour passer la configuration de WP au contenant et qu’il le configure automatiquement, on aura un script qui remplacera le ENTRYPOINT et configurera WP.
+    En plus on n’aura pas besoin d’ouvrir le répertoire WP en écriture.
+    Outil envsubst, remplace dans un fichier des noms de variables d’environnement.
+    Prendra le fichier de configurations et y insérera des éléments de variables d’environnement les modifiera avec de l’information qu’on passera au contenant lors de l’exécution et non de la création.
+  </section>
+
+  <section data-markdown>
+    ## Configuration WordPress
+    Modifier le dockerfile pour mettre les bonnes valeurs dans le fichier de configuration.
+    Prendre fichier de configuration WP créé par le contenant et s’en servir comme modèle.
+    On voudra modifier certaines configurations pour se l’approprier.
+    Toute l’information qui avait été remplie par l’installateur sera modifiée en des noms de variables.
+    En production il faudrait faire de même avec les secrets d’authentification, utiliser des variables d’environnement.
+  </section>
+
+  <section data-markdown>
+    ## Configuration WordPress
+    Modifier le dockerfile pour mettre les bonnes valeurs dans le fichier de configuration.
+    Mettre wp-config.php dans le dossier wordpress, mais ce sera un modèle car il n’est présentement pas valide tel quel, avec les variables d’environnement.
+    Renommer en wp-configh.php-template
+    ENTRYPOINT définit la limite entre ce qui roulera en création (avant) et  en exécution (après).
+    Un fichier entrypoint.sh sera un script à exécuter pour démarrer les services.
+    Avant de démarrer apache, il appellera une commande envsubst, entrer le modèle et l’envoyer à wp-config.php ainsi que la liste des variables à remplacer et ensuite on démarre le serveur apache.
+    Prend ce qu’il y a dans le template, lis le fichier pour voir s’il y a des variables d’environnement et les remplace par celles du contenant.
+  </section>
+
+  <section data-markdown>
+    ## Configuration WordPress
+    Refaire docker-build et aller dans docker-compose pour définir les variables d’environnement.
+    Pour que ce contenant et l’environnement roulent dans un environnement cloud, on va en créer un environnement cloud et faire une configuration de base, accessible par le nom de domaine.
+  </section>
+
+  <section data-markdown>
+    ## Commandes
+    docker exec contenant apt-get install gettext-base pour modifier le texte dans le fichier de configuration.
+    docker cp contenant :chemin_contenant cheminlocal permet de copier un fichier dans un contenant vers un répertoire local.
+    docker exec contenant cat /var/log/apache2/error.log pour voir les logs apache du contenant.
   </section>
 </section>
+
 <section>
   <section data-markdown>
-    # Démo - Revue de sécurité
+    #Environnement Cloud
+    ## Vérifier installation gcloud command line s.v.p.
   </section>
-</section>
-<section>
+
   <section data-markdown>
-    # Laboratoire et devoir - Revue de sécurité
+    ##Environnement Cloud
+    Google a un produit appelé Google Container Engine, on crée un container cluster et on le met dans une zone, machine small car micro trop lente.
+    Cluster d’1 machine et reste par défaut.
+    Permet de créer le cluster où on définira les images de contenant.
   </section>
+  <section data-markdown>
+     ##Commandes
+     gcloud container clusters list pour voir le cluster créé.
+     gcloud container clusters get-credentials nomcluster va configurer l’environnement local pour se connecter au cluster, télécharge un fichier de configurations dans .kubeconfig dans le répertoire local.  Ensuite il faut lier les authentifiants à notre compte google.  Gcloud auth application-default login pour ouvir une fentre d’autorisation pour contrôler les containers.
+     kubeclt est l’outil pour se connecter et interagir avec le cluster.
+     kubectl get nodes pour voir listes des clusters.
+   </section>
+ </section>
+
+<section>
+   <section data-markdown>
+     #Kubernetes
+   </section>
+
+   <section data-markdown>
+     ##Kubernetes
+     Google cloud Container Engine crée un cluster de Kubernetes, orchestrateur de contenants.
+     https://kubernetes.io/docs/tutorials/kubernetes-basics/
+     https://www.youtube.com/watch?v=4ht22ReBjno
+   </section>
+
+   <section data-markdown>
+     ##Kubernetes
+     Docker permet de définir le contenant et l’exécuter mais pas de décider où ou comment l’exécuter.
+     Docker-compose intègre certains concepts d’orchestration, définir l’environnement du contenant.
+     Le concept de contrôler les contenants est l’orchestration, très important dans une architecture par contenants.
+   </section>
+
+   <section data-markdown>
+     ##Kubernetes - concepts
+     Kubernetes utilise différents concepts au niveau de l’architecture.
+     Cluster est géré comme un bassin de ressources où on peut exécuter des contenants.
+     Un ou plusieurs serveurs, virtuels ou physiques appelés nodes.
+     Roulent Linux (windows en alpha) avec un outil appelé Kubelet.
+   </section>
+   <section data-markdown>
+     ## Kubernetes - concepts
+     Kubelet permet à Kubernetes, orchestrateur, de demander au serveur d’exécuter un contenant docker.
+   </section>
+
+   <section data-markdown>
+     ##Kubernetes - concepts
+     Le cluster a également un master, on ne le voit pas dans le cas de Container Engine il est implicite.
+     Le master est un node invisible qu’on ne paye pas, existe à l’extérieur du cluster.
+     Avec kubectl on pourra se connecter au master et lui envoyer des commandes qui contrôleront les nodes.
+     On lui enverra des configurations d’objets.
+     Un manifeste est un fichier un peu comme le docker-comose ou configuration Terraform, qui définit des éléments d’infrastructure, ici des configurations de contenants appelées pod.
+   </section>
+
+   <section data-markdown>
+     ##Kubernetes - concepts
+     Un pod est un ensemble de container docker qui permettra à une application de rouler.
+     Un déploiement définit l’environnement d’exécution autour du pod : combien de copies du pod, réplication, etc.  (suite au prochain cours).
+     Kubectl pour envoyer le manifest au master en question.
+     Sa job sera de faire une scédule, regardera la capacité de chacun des nodes et prendra une décision sur où rouler les containers du pod.
+     Sa job sera de prendre des décisions sur où démarrer et où exécuter pour répondre aux besoins en ressources des différents contenants.
+     On ajoutera des couches pour faire interagir et donner des services à ces contenants.
+   </section>
+
+   <section data-markdown>
+     ## Fichier wordpress-delpoyment.yaml  
+     Version d’API, métadonnées, étiquettes, nom image sur dockerhub, environnement.
+     Kubernetes rend tous les services disponibles sur localhost.
+     L’image de contenant doit être téléchargeable (tag et push).
+     C'est comme un docker-compose distribué au lieu de local.
+   </section>
+
+   <section data-markdown>
+     ##Commandes
+     gcloud container clusters describe nomcluster donnera l’adresse ip du cluster et autre information.
+     kubectl cluster-info donne aussi de l’information
+     kubectl create –f fichierdéploiement.yaml
+   </section>
 </section>
