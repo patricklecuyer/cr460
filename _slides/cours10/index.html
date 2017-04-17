@@ -1,6 +1,6 @@
 ---
-title: Cours 10 - Performance et disponibilité
-description: Introduction aux concepts de performance et disponibilité dans un contexte infonuagique
+title: Cours 10 - Labo
+description: Déploiement de WordPress avec contenants.
 theme: night
 date: 2017-3-20
 reveal_config:
@@ -15,23 +15,73 @@ reveal_config:
     ## Cours 10
   </section>
 </section>
+
 <section>
   <section data-markdown>
     # Retour sur le cours 9
   </section>
 </section>
+
 <section>
   <section data-markdown>
-    # Demo - Disponibilité
+    # Demo - Installation WordPress
   </section>
-</section>
-<section>
+
   <section data-markdown>
-    # Demo - Performance
+    ## Étapes
+    Installer la bonne version de Docker.
+    Bâtir un docker file qui va déployer WP.
   </section>
-</section>
-<section>
+
   <section data-markdown>
-    # Laboratoire - Configuration multi-zone
+    ## Étape 1
+    www.wordpress.org
+    download version la plus récente
+    éditeur de texte pour faire le dockerfile dans un dossier, ex. cr460-lab-10
+    FROM pour image de base ubuntu :16.04
+    RUN apt get update
+    RUN apt-get install –y apache2
+    docker build .
   </section>
-</section>
+
+  <section data-markdown>
+    ## Étape 2
+    Pour que l’image soit utile, il faut ajouter une commande, un ENTRYPOINT, et on ne veut pas que le serveur roule en background.
+    Pour interagir, il faut le mode interactif
+    docker run -i
+    Pour que le processus sur lequel le container roule reçoive les signaux il doit etre en foreground, ça doit être le processus qui fait le travail.
+    Notez que l'image grossi quand on ajoute des fichiers.
+    Il faut avoir le dossier WordPress dans le même répertoire que le dockerfile.
+  </section>
+  <section data-markdown>
+    ## Étape 2 suite
+    Il faut ajouter une DB.
+    L’approche est que chaque contenant doit faire seulement une tâche, scaling sur DB et WordPress ne sera pas identique.
+    On va créer un contenant à côté avec un fichier docker-compose pour orchestrer minimalement, créer les 2 contenants et les lier.
+  </section>
+
+  <section data-markdown>
+    ## docker-compose.yml
+    On va faire une configuration simple mais on ajoutera de la sécurité afin de ne pas voir les mots de passe facilement dans le docker-compose yml.
+    Pour définir une composition de contenant: définir plusieurs contenants et comment ils sont liés ensemble.
+    Premièrement on a une version, 2 la plus récente, optionnel mais on le met pour éviter des problèmes si jamais la version change.
+    Chaque service représente un contenant.
+  </section>
+
+  <section data-markdown>
+    ## docker-compose.yml - suite
+    YML sensible à l’indentation, attention pas de mix match espace ou tab, pas les 2.
+    Comme les contenants sont dans le même docker-compose, ils sont maintenant liés.
+    Code erreur 127 relativement utile, soit l'exécutable n'a pas été trouvé, soit le fichier n'existe pas (typo par exemple).
+    Docker-Compose crée des entrées DNS pour ne pas avoir à se soucier des ip.
+    Il faudra mettre les utilisateur et password pour la db dans l’interface WP.
+    Pour avoir un WordPress fonctionnel, il faut lui donner le droit d’écriture, pou son fichier de configuration, très laid JAMAIS faire en production.
+    RUN chmod 077 /path
+    Donne full write access à tout le monde
+  </section>
+
+  <section data-markdown>
+    ## Commandes docker-compose
+    docker-compose up / down / rm
+    docker-compose build force la reconstruction de l’image. 
+  </section>
