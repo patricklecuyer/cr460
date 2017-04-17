@@ -22,59 +22,75 @@ reveal_config:
   </section>
   <section>
     <section data-markdown>
-      # Démo - Deploiement de base
-      Google Cloud Platform
-      Projet
-      Par défaut le créateur est propriétaire mais il faut créer des rôles si d’autres personnes ou machines doivent avoir accès au projet.
-      Dans tous les écrans /interfaces, on peut voir l’équivalent en appel d’api ou ligne de commande, utile pour faire des appels par Terraform et interagir avec l’interface de Google
-      gcloud commandline ou via application +api.
+      ## Démo - Deploiement de base - Projet GCP
+
+      * Par défaut le créateur est propriétaire mais il faut créer des rôles si d’autres personnes ou machines doivent avoir accès au projet.
+
+      * Dans tous les écrans /interfaces, on peut voir l’équivalent en appel d’api ou ligne de commande, utile pour faire des appels par Terraform et interagir avec l’interface de Google gcloud commandline ou via application +api.
     </section>
 
     <section data-markdown>
-      # Démo - GCP - Réseaux
-      Pour Google, les sous-réseaux représentent des zones, emplacements physiques.  Nos réseaux sont liés à l'un ou l’autre des centres de données Google.
-      Google donne un ensemble d’adresse IP, assignées par zones.  Il faut ajouter un réseau adéquat pour la tâche à faire.
-      En mode auto, Google s’en charge, en manuel il faut créer les sous-réseaux.
-      Auto crée seulement un sous-réseau par région, nous avons plutôt besoin d’un sous-réseau par rôle, plus facile pour les règles de pare-feu si on veut des accès externes.
-      Dans un centre de données, il y a un réseau interne, externe, dmz, etc.
-      Pas de VLSM, on ne peut pas faire de vlan mais on peut modifier les tables de routage.
-      La VM ne verra pas le réseau, il faut donc l’assigner à un sous-réseau.
-      Aucune règle de pare-feu = aucun trafic entrant (deny all par défaut).
+      ## Démo - GCP - Réseaux
+
+      * Pour Google, les sous-réseaux représentent des zones, emplacements physiques.  Nos réseaux sont liés à l'un ou l’autre des centres de données Google.
+
+      * Google donne un ensemble d’adresse IP, assignées par zones.  Il faut ajouter un réseau adéquat pour la tâche à faire.
+
+      * En mode auto, Google s’en charge, en manuel il faut créer les sous-réseaux.
     </section>
 
     <section data-markdown>
-      # Démo - GCP - Instance
-      Une instance est une VM de serveur, on peut également faire des modèles pour les créer automatiquement, plusieurs du même modèle et créer des règles pour créer ou détruire des machines selon différents marqueurs de surveillance (élasticité).
-      On peut utiliser une image standard de disque de démarrage, fournie par Google, ou utiliser notre propre image pour un système sur-mesure et paramétrer les caractéristiques physiques de la machine (cpu, ram etc, réseau, clé SSH).
-    </section>
+      ## Démo - GCP - Réseaux
+      * Auto crée seulement un sous-réseau par région, nous avons plutôt besoin d’un sous-réseau par rôle, plus facile pour les règles de pare-feu si on veut des accès externes.
 
-    <section data-markdown>
-      # Démo - GCP - Groupe
-    </section>
-
-    <section data-markdown>
-      # Démo - GCP - Load Balancer
+      * Dans un centre de données, il y a un réseau interne, externe, dmz, etc.
 
     </section>
 
     <section data-markdown>
-      # Démo - GCP - Auto-Scaling
+      ## Démo - GCP - Réseaux
+      * Pas de VLSM, on ne peut pas faire de vlan mais on peut modifier les tables de routage.
 
+      * La VM ne verra pas le réseau, il faut donc l’assigner à un sous-réseau.
+
+      * Aucune règle de pare-feu = aucun trafic entrant (deny all par défaut).
     </section>
 
-  </section>
-  <section>
     <section data-markdown>
-      #Démo - cloud-init
+      ## Démo - GCP - Instance
+
+      * Une instance est une VM de serveur, on peut également faire des modèles pour les créer automatiquement, plusieurs du même modèle et créer des règles pour créer ou détruire des machines selon différents marqueurs de surveillance (élasticité).
+
+      * On peut utiliser une image standard de disque de démarrage, fournie par Google, ou utiliser notre propre image pour un système sur-mesure et paramétrer les caractéristiques physiques de la machine (cpu, ram etc, réseau, clé SSH).
     </section>
-  </section>
-  <section>
+
     <section data-markdown>
-      # Démo - Gestion de la configuration
+      ## Démo - GCP - Groupe
+
+      * Un groupe d'instance permet de démarrer un ensemble d'instances à partir du même modèle (template)
+
+      * La création du modèle est identique à la création d'une instance.
     </section>
-</section>
+
+
+    <section data-markdown>
+      ## Démo - GCP - Élasticité (auto-scaling)
+
+      * L'ajout de composantes d'élasticité à un groupe d'hôte permet de faire varier sa taille en fonction de la charge actuelle de l'infrastructure.
+
+      * La taille minimum, maximum et les conditions pour ajouter ou retirer un hôte seront configurés.
+    </section>
+    <section data-markdown>
+      ## Démo - GCP - Load Balancer
+
+      * Un équilibreur de charge permet de diriger le traffic public à un groupe d'hôte.
+
+      * La configuration de l'équilibreur de charge est mise à jour automatiquement lorsque le groupe d'hôte change de taille.
+    </section>
+
+
 <section>
   <section data-markdown>
-    # Laboratoire - Déploiement d'une infrastructure de base
+    ## Laboratoire - Déploiement d'une infrastructure de base
   </section>
 </section>

@@ -23,27 +23,41 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    # TerraForm - Fichier tfstate
-    Terraform garde un fichier d’état qui conserve ce qui a été fait ou non; en faisant des nouvelles configurations.
-    Ce qui a été provisionné va le demeurer et seulement les changements seront appliqués (modifications, ajouts, retraits)
+    ## TerraForm - Fichier tfstate
+
+    * Terraform garde un fichier d’état qui conserve ce qui a été fait ou non; en faisant des nouvelles configurations.
+    * Ce qui a été provisionné va le demeurer et seulement les changements seront appliqués (modifications, ajouts, retraits)
   </section>
 
   <section data-markdown>
-    # TerraForm vs autres outils
-    Ansible, Chef, salt puppet,  terrraform , salt cloud, sparkle formation, amazon cloud formation, google configuration manager
-    Deux classes de produits différentes.
-    Il y a des similitudes, les deux amènent une configuration déclarative mais les deux types jouent à un niveau différent.
-    Terraform est un outil de provisionnement pour créer les objets cloud qui sont à configurer, mettre en place l’infrastructure en créant les serveurs, réseaux, entrées DNS, etc.
-    Ansible, Chef, Puppet etc sont des outils de gestion de la configuration; une fois qu’un serveur est démarré, il part vide.
-    Ansible permettrait de configurer le serveur vide provisionné par Terraform par exemple.
-    Cisco UCS permet aussi le provisionnement comme Terraform.
+    ## TerraForm vs autres outils
+
+    * Ansible, Chef, salt puppet,  terrraform , salt cloud, sparkle formation, amazon cloud formation, google configuration manager
+
+    * Deux classes de produits différentes.
+
+    * Il y a des similitudes, les deux amènent une configuration déclarative mais les deux types jouent à un niveau différent.
   </section>
 
   <section data-markdown>
-    #Terraform vs autres outils
-    Dans le cadre du cours nous utiliseront une configuration par contenants, qui sera vue plus tard, avec Docker et n’aurons pas besoin de ces outils.
-    Le rôle de l’orchestrateur, qui sera vu plus tard, est de prendre des décisions sur la meilleure façon d’utiliser l’infrastructure en tant que planificateur de charge.
-    Outil de provisionnement -> Gestionnaire de configuration pour installer l’orchestrateur -> Orchestrateur pour gérer la charge de travail.
+    ## TerraForm vs autres outils
+    * Terraform est un outil de provisionnement pour créer les objets cloud qui sont à configurer, mettre en place l’infrastructure en créant les serveurs, réseaux, entrées DNS, etc.
+
+    * Ansible, Chef, Puppet etc sont des outils de gestion de la configuration; une fois qu’un serveur est démarré, il part vide.
+
+    * Ansible permettrait de configurer le serveur vide provisionné par Terraform par exemple.
+
+    * Cisco UCS permet aussi le provisionnement comme Terraform.
+  </section>
+
+  <section data-markdown>
+    ## Terraform vs autres outils
+
+    * Dans le cadre du cours nous utiliseront une configuration par contenants, qui sera vue plus tard, avec Docker et n’aurons pas besoin de ces outils.
+
+    * Le rôle de l’orchestrateur, qui sera vu plus tard, est de prendre des décisions sur la meilleure façon d’utiliser l’infrastructure en tant que planificateur de charge.
+
+    * Outil de provisionnement -> Gestionnaire de configuration pour installer l’orchestrateur -> Orchestrateur pour gérer la charge de travail.
   </section>
 </section>
 
@@ -53,8 +67,13 @@ reveal_config:
   </section>
 
   <section data-markdown>
-  #Diagramme du travail
-  Un serveur de BD pourrait servir de backend mais on a une architecture micro-services et non 3 tiers classique (BD – App – Web).
-  1ère partie du travail de session : publier le Terraform pour ce provisionnement sur GitHub. 
+  ## Diagramme du travail
+
+  * Un serveur de BD pourrait servir de backend mais on a une architecture micro-services et non 3 tiers classique (BD – App – Web).
+  * 1ère partie du travail de session : publier le Terraform pour ce provisionnement sur GitHub.
+  </section>
+<section data-markdown>
+  ## Diagramme du travail
+  ![diagramme](tdsp1.png)
   </section>
 </section>

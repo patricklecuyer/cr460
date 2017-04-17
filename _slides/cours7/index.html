@@ -28,28 +28,47 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    # Concept - Contenant - Diagramme Classique
-    Plus vieille façon de faire de la virtualisation, du point de vue implémentation, date des mainframes dans les années 70, plus près des contenants que des VM aujourd’hui.
-    Chacun des processus savent qu’ils existent selon le modèle classique, aucune isolation entre eux.
-    Autrefois, les contenants avaient été créés pour rendre le parallélisme possible.
-    Sur le modèle classique, il est difficile de gérer les dépendances, conflits potentiels, changement pour le processus pourrait nuire à un autre.
-    Si un processus se fait compromettre, il peut ensuite compromettre les autres car ils ne sont pas isoles.
+    ## Concept - Séparation des processus
+
+    * Plus vieille façon de faire de la virtualisation, du point de vue implémentation, date des mainframes dans les années 70, plus près des contenants que des VM aujourd’hui.
+
+    * Chacun des processus savent qu’ils existent selon le modèle classique, aucune isolation entre eux.
   </section>
 
   <section data-markdown>
-    # Concept - Diagramme Virtualisation Standard
-    Mode virtualisation standard (classique) pour isoler les processus et régler certains problèmes de sécurité.
-    Efficace si besoin d’avoir des différences entre les noyaux.
-    Dans un contexte où le OS est le même partout, on perd de l’efficacité car on ajoute des couches, de la redondance,  et aussi car l’hyperviseur émule du matériel.
+    ## Concept - Séparation des processus
+    * Autrefois, les contenants avaient été créés pour rendre le parallélisme possible.
+
+    * Sur le modèle classique, il est difficile de gérer les dépendances, conflits potentiels, changement pour le processus pourrait nuire à un autre.
+
+    * Si un processus se fait compromettre, il peut ensuite compromettre les autres car ils ne sont pas isoles.
   </section>
 
   <section data-markdown>
-    # Concept - Diagramme Mode Contenants
-    Les contenants roulent sur le même noyau, qui a été configurer pour les supporter.
-    Celui-ci permet l’isolation des processus contenus, ils ne voient pas les autre processus dans des contenants différents.
-    Synonyme Zone dans Solaris, permet d’isoler des groupes de processus, séparation logiques sans besoin d’installer un autre système d’exploitation pour les supporter.
-    L'objectif d’un contenant est différent d’une VM, deux niveaux de virtualisation différents avec leurs avantages et inconvénients respectifs.
-    Peut ressembler à applications mobiles au niveau de l’isolation fournie par le noyau mais techniquement pas des contenants car ne sont pas déployés de la même façon.
+    ## Concept - Virtualisation classique
+
+    * Mode virtualisation (classique) pour isoler les processus et régler certains problèmes de sécurité.
+
+    * Efficace si besoin d’avoir des différences entre les noyaux.
+
+    * Dans un contexte où le OS est le même partout, on perd de l’efficacité car on ajoute des couches, de la redondance,  et aussi car l’hyperviseur émule du matériel.
+  </section>
+
+  <section data-markdown>
+    ## Concept - Contenants
+
+    * Les contenants roulent sur le même noyau, qui a été configurer pour les supporter.
+
+    * Celui-ci permet l’isolation des processus contenus, ils ne voient pas les autre processus dans des contenants différents.
+  </section>
+
+  <section data-markdown>
+    ## Concept - Contenants
+    * Synonyme Zone dans Solaris, permet d’isoler des groupes de processus, séparation logiques sans besoin d’installer un autre système d’exploitation pour les supporter.
+
+    * L'objectif d’un contenant est différent d’une VM, deux niveaux de virtualisation différents avec leurs avantages et inconvénients respectifs.
+
+    * Peut ressembler à applications mobiles au niveau de l’isolation fournie par le noyau mais techniquement pas des contenants car ne sont pas déployés de la même façon.
   </section>
 </section>
 
@@ -60,40 +79,59 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    # Isolation -  Namespace
-    Ensemble d’éléments où chacun des éléments est nommé de manière unique.
-    Un processus aura son numéro, arborescence de répertoires et réseaux isolés.
-    Ils ne voient pas ce qui se passe dans le contenant voisin.
+    ## Isolation -  Namespace
+
+    * Ensemble d’éléments où chacun des éléments est nommé de manière unique.
+
+    * Un processus aura son numéro, arborescence de répertoires et réseaux isolés.
+
+    * Ils ne voient pas ce qui se passe dans le contenant voisin.
   </section>
 
   <section data-markdown>
-    # Isolation - Mode Classique
-    Les processus sont tous indépendants mais peuvent se voir car ils sont à l’intérieur du même namespace, ils sont au courant des processus voisins et peuvent communiquer avec eux.
-    Le File-system namespace est commun et ils peuvent lire mêmes fichiers, écrire ou écraser le même fichier, voient le même réseau, etc.
+    ## Isolation - Mode Classique
+
+    * Les processus sont tous indépendants mais peuvent se voir car ils sont à l’intérieur du même namespace, ils sont au courant des processus voisins et peuvent communiquer avec eux.
+
+    * Le File-system namespace est commun et ils peuvent lire mêmes fichiers, écrire ou écraser le même fichier, voient le même réseau, etc.
   </section>
 
   <section data-markdown>
-    # Isolation - Mode VM
-    Avec la VM, un seul processus représente l’ensemble de l’OS.
-    La VM est isolée complètement, ne sait pas qu’elle roule en virtuel vs matériel standard.
-    Très lourd en mémoire et en ressources dédiées à ces processus.
+    ## Isolation - Mode VM
+    * Avec la VM, un seul processus représente l’ensemble de l’OS.
+
+    * La VM est isolée complètement, ne sait pas qu’elle roule en virtuel vs matériel standard.
+
+    * Très lourd en mémoire et en ressources dédiées à ces processus.
   </section>
 
   <section data-markdown>
-    # Isolation - Mode Contenant
-    Si on démarre un contenant avec Docker qui roule un linux avec un shell.  [ps] pour lister les processus.
-    En partant  un 2e contenant sur la même machine, [ps] ne verra pas les processus du contenant voisin.
-    L'hyperviseur en dessous voit les différents processus de chaque contenant car il n'y a qu'un ordonnanceur, une table de descripteurs.
-    Docker crée seulement des barrières entre chacun et isole également le système de fichiers.
-    Chacun des contenants a un système indépendant et ne peut interagir directement avec les processus du voisin.
-    Séparation au niveau du réseau également mais il est possible d’exposer des ports pour leur permettre de communiquer.
-    Les 3 niveaux d’isolation donnent une manière de packager des applications facilement, évite l’interaction négative entre les processus.
+    ## Isolation - Mode Contenant
+
+    * Si on démarre un contenant avec Docker qui roule un linux avec un shell.  [ps] pour lister les processus.
+
+    * En partant  un 2e contenant sur la même machine, [ps] ne verra pas les processus du contenant voisin.
+
+    * L'hyperviseur en dessous voit les différents processus de chaque contenant car il n'y a qu'un ordonnanceur, une table de descripteurs.
   </section>
 
-  <section>
-    #Relation Contenant et Architecture micro-services
-    Isoler de façon à ce que chaque contenant n’effectue qu’une seule tâche.
-    Permet de créer des morceaux d’application, en petites portions individuelles, n’ayant pas connaissance du monde extérieur et de manière à reproduire facilement le même déploiement.
+  <section data-markdown>
+    ## Isolation - Mode Contenant
+    * Docker crée seulement des barrières entre chacun et isole également le système de fichiers.
+
+    * Chacun des contenants a un système indépendant et ne peut interagir directement avec les processus du voisin.
+
+    * Séparation au niveau du réseau également mais il est possible d’exposer des ports pour leur permettre de communiquer.
+
+    * Les 3 niveaux d’isolation donnent une manière de packager des applications facilement, évite l’interaction négative entre les processus.
+  </section>
+
+  <section data-markdown>
+    ## Relation Contenant et Architecture micro-services
+
+    * Isoler de façon à ce que chaque contenant n’effectue qu’une seule tâche.
+
+    * Permet de créer des morceaux d’application, en petites portions individuelles, n’ayant pas connaissance du monde extérieur et de manière à reproduire facilement le même déploiement.
   </section>
 </section>
 
@@ -105,24 +143,33 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    # Docker
-    Docker permet de faire des demandes au noyau pour créer des contenants, choisir les caractéristiques et fournir l’image disque associée au système de fichiers de ce contenant.
-    Procfile expliquait à Heroku quoi démarrer, le dockerfile est équivalent mais va construire l’image de contenant pour déployer l’application.
-    Recommandé de n’utiliser que les images de dockerfile officielles, venant d’une source fiable.
-    Le repo Docker Hub est un registre de contenants.
+    ## Docker
+
+    * Docker permet de faire des demandes au noyau pour créer des contenants, choisir les caractéristiques et fournir l’image disque associée au système de fichiers de ce contenant.
+
+    * Procfile expliquait à Heroku quoi démarrer, le dockerfile est équivalent mais va construire l’image de contenant pour déployer l’application.
+
+    * Recommandé de n’utiliser que les images de dockerfile officielles, venant d’une source fiable.
+
+    * Le repo Docker Hub est un registre de contenants.
   </section>
 
 </section>
 
 <section>
   <section data-markdown>
-    # Docker - Documentation et essai
+    ## Docker - Documentation et essai
 
-    Attention aux anciennes versions de windows.
-    Bonne compatiblité Mac et Linux.
-    Une VM ubuntu est utile pour des raisons de compatiblité
-    http://www.wikihow.com/Install-Ubuntu-on-VirtualBox
-    https://docs.docker.com/
-    https://docs.docker.com/engine/getstarted/
+    * Attention aux anciennes versions de windows.
+
+    * Bonne compatiblité Mac et Linux.
+
+    * Une VM ubuntu est utile pour des raisons de compatiblité
+
+    * http://www.wikihow.com/Install-Ubuntu-on-VirtualBox
+
+    * https://docs.docker.com/
+
+    * https://docs.docker.com/engine/getstarted/
   </section>
 </section>

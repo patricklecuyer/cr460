@@ -24,9 +24,6 @@ reveal_config:
 <section>
   <section data-markdown>
     ## Travail de session
-  </section>
-
-  <section data-markdown>
 
     Pour le travail de session, notre objectif sera d’avoir un script Terraform pour déployer, en architecture micro-services et de manière sécuritaire, une application web.
 
@@ -39,46 +36,68 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    #GIA
-    Avant de se lancer dans Terraform, il faut comprendre le concept de Gestion des Identités et Accès.
-    Donner des droits à des outils externes et /ou utilisateurs pour interagir avec ressources cloud.
-    Pas très sécuritaire à la base mais simplement afin de pouvoir connecter notre outil.
+    ## GIA
+    * Avant de se lancer dans Terraform, il faut comprendre le concept de Gestion des Identités et Accès.
+
+    * Donner des droits à des outils externes et /ou utilisateurs pour interagir avec ressources cloud.
+
+    * Pas très sécuritaire à la base mais simplement afin de pouvoir connecter notre outil.
   </section>
 
   <section data-markdown>
-    #Terraform - Utilisation Déclarative
-     On déclare de l’infrastructure à déployer et l’outil prendra des décisions pour créer des objets.
-     Déclaration : état cible d’infrastructure finale avec toutes les caractéristiques.
-     L'outil lit la déclaration et décide de l’ordre de création.
-     Terraform permet de créer, avec un langage de déclaration universel, des objets entre différents fournisseurs cloud et partager de l’information entre ces fournisseurs.
-     Blocs représente 1 de 3 types d’objets.
-     https://www.terraform.io/docs/index.html
+    ## Terraform - Utilisation Déclarative
+
+     * On déclare de l’infrastructure à déployer et l’outil prendra des décisions pour créer des objets.
+
+     * Déclaration : état cible d’infrastructure finale avec toutes les caractéristiques.
+
+     * L'outil lit la déclaration et décide de l’ordre de création.
+
+     * Terraform permet de créer, avec un langage de déclaration universel, des objets entre différents fournisseurs cloud et partager de l’information entre ces fournisseurs.
+
+     * Blocs représente 1 de 3 types d’objets.
+
+     * https://www.terraform.io/docs/index.html
   </section>
 
   <section data-markdown>
-    #Terraform - fichiers
-    Terraform fonctionne en créant des objets de type ressources ou provider.
-    Terraform sépare la déclaration et décide dans quel ordre créer les objets.
-    Terraform utilise les fichiers .tf pour faire son arbre de déploiement.
-    Le fichier provider.tf  définit la manière d’interagir avec le fournisseur, soit Google, (Authentifiants, projet, région).
-  </section>
+    ## Terraform - fichiers
 
-  <section>
-    #Terraform -fichiers (suite)
-    On peut utiliser des chaines de caractères ou utiliser des macros, se référer à des propriétés d’autres objets afin de suivre l’interaction entre les objets et mettre à jour de façon dynamique.
-    Il faut séparer les fichiers selon type de ressources.
-    Le nom dans la déclaration d’objet est le nom terraform, l’autre le nom sur Google, pas nécessaire d’être pareil.
-    Self-link représente url vers objet.
-    Pouvoir se référer à d’autres objets permet donc une configuration dynamique.
-    https://www.terraform.io/docs/providers/google/index.html
+    * Terraform fonctionne en créant des objets de type ressources ou provider.
+
+    * Terraform sépare la déclaration et décide dans quel ordre créer les objets.
+
+    * Terraform utilise les fichiers .tf pour faire son arbre de déploiement.
+
+    * Le fichier provider.tf  définit la manière d’interagir avec le fournisseur, soit Google, (Authentifiants, projet, région).
   </section>
 
   <section data-markdown>
-    #Terraform - commandes
-    Commande terraform plan : lis les déclarations et donne les étapes à faire pour la création, sans prendre d’actions.
-    Si un objet existe déjà, terraform plan montrera les modifications à effectuer.
-    Commande terraform apply crée les ressources.
-    Commande terraform destroy pour détruire les ressources, assure qu’on repart d’une configuration propre si on avait des erreurs précédemment.
+    ## Terraform - fichiers
+
+    * On peut utiliser des chaines de caractères ou utiliser des macros, se référer à des propriétés d’autres objets afin de suivre l’interaction entre les objets et mettre à jour de façon dynamique.
+
+    * Il faut séparer les fichiers selon type de ressources.
+
+    * Le nom dans la déclaration d’objet est le nom terraform, l’autre le nom sur Google, pas nécessaire d’être pareil.
+
+    * Self-link représente url vers objet.
+
+    * Pouvoir se référer à d’autres objets permet donc une configuration dynamique.
+
+    * https://www.terraform.io/docs/providers/google/index.html
+  </section>
+
+  <section data-markdown>
+    ##  Terraform - commandes
+
+    * Commande terraform plan : lis les déclarations et donne les étapes à faire pour la création, sans prendre d’actions.
+
+    * Si un objet existe déjà, terraform plan montrera les modifications à effectuer.
+
+    * Commande terraform apply crée les ressources.
+
+    * Commande terraform destroy pour détruire les ressources, assure qu’on repart d’une configuration propre si on avait des erreurs précédemment.
   </section>
 
 </section>
