@@ -1,6 +1,6 @@
 ---
-title: Cours 8 - Surveillance
-description: Introduction à la surveillance d'infrastructure, applicative et de sécurité dans un contexte IaaS
+title: Cours 8 - Orchestrateur
+description: Concept d'orchestrateur avec Kubernetes
 theme: night
 date: 2017-2-27
 reveal_config:
@@ -15,29 +15,279 @@ reveal_config:
     ## Cours 8
   </section>
 </section>
+
+
 <section>
   <section data-markdown>
     # Retour sur le cours 7
   </section>
-</section>
-<section>
+
   <section data-markdown>
-    # Concepts - Surveillance
+    ## Contenants - concepts
+    Un contenant est une isolation contrairement à une VM qui a un stack complet avec hyperviseur pour émuler du matériel.
+    Interagit avec l'OS pour isoler les processus, espace disque, Namesapce afin que des portions ne se voient pas.
+    Roule application dans un silo invisible de l’extérieur du contenant.
+  </section>
+
+  <section data-markdown>
+    ## Contenants - concepts
+    L'isolation empêche de voir d’un contenant à l’autre mais l’OS de l’hôte peut voir à l’intérieur de chacun des contenants.
+    Si le contenant est une portion isolée de l'OS et des autres processus, on doit pouvoir lui dire quelle application exécuter, lui donner son FS indépendant du FS du host et le peupler afin qu’il soit utile.
+    Docker intervient à cette étape.
+  </section>
+
+  <section data-markdown>
+    ## Contenants - Docker
+    Beaucoup de gens voient Docker comme l’engin qui roule les contenants mais en fait c’est une fonctionnalité du noyau et de l’OS de permettre les isolations.
+    Docker permet d’insérer ce qu’on veut plus facilement, d’interagir avec le noyau pour créer les couches d’isolation, d'insérer un certain nombre d’éléments du FS, des processus pour rouler l’application.
+    Tehcnologie au niveau du noyau : Namespace vu au dernier cours.
+    Silo pour limiter la quantité de ressources que le contenant pourra utiliser.
+    Windows Server 2016 rev2 supporte les contenants.
+  </section>
+
+  <section data-markdown>
+    ## Contenants - Docker
+    Docker fait 3 choses.
+    1 Créer le contenant: définir l'espace d’isolation au niveau du noyau.
+    2 Monter un FS: qui sera isolé du reste par défaut afin d’avoir sur le disque ce que l’application a besoin pour fonctionner.
+    3 Démarrer le processus parent.
+  </section>
+
+  <section data-markdown>
+    ## Contenants - Docker
+    On peut assigner des limites de ressources mais c’est relativement rare.
+    L’objectif d’une architecture containérisée est de séparer l’application en petits morceaux qu’on peut envoyer un peu partout et non de mettre des limites sur l’application.
+    On a plus de chances de rajouter des contenants pour augmenter la capacité que de limiter les ressources.
+    Tous les processus du contenant partent d’un processus parent.
+    Docker démarre l’application à l’intérieur du contenant puis laisse l’OS gérer le reste.
   </section>
 </section>
+
+
 <section>
   <section data-markdown>
-    # Demo - Surveillance Applicative
-  </section>
-</section>
-<section>
-  <section data-markdown>
-    # Demo - Surveillance de sécurité
+    # Docker
   </section>
 </section>
 
 <section>
   <section data-markdown>
-    # Laboratoire - Déploiement surveillance
+    ## Fichier dockerfile
+    Avec Docker, on définit un manifeste, un peu comme le fichier de terraform.
+    C’est une description déclarative, lisible, de ce qui sera notre contenant afin qu'il soit facilement reproductible sans avoir à faire de changements directement sur l’hôte.
+    Le fichier dockerfile a 3 sections en lien avec les 2 dernières capacités de Docker,  à moins de vouloir mettre des restrictions.
+    Docker va créer le contenant par lui-même à partir de ce fichier.
   </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile
+    Docker crée des FS en couches : image de base, changement 1, changement 2,…, etc.
+    Le changement peut être d'installer une patch de sécurité, installer une application, créer un utilisateur, etc.
+    Ce qui est stocké dans une couche est seulement la différence entre celle-ci et la précédente jusqu’à finir par avoir un système complet.
+    Un peu comme un "Snapshot", au lieu d’avoir un système monolithique, on peut lire à l’intérieur de la bonne couche selon les différences.
+  </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile
+    Chacune des lignes commence avec une commande, Docker exécute ligne par ligne pour interpréter.
+    Section 1 image de base, optionnel car on peut partir d’une image vide mais normalement on part d’une image de base.
+    Section 2 défini les changements à l’image de base.
+    Section 3 définit le processus à démarrer.
+    https://docs.docker.com/engine/reference/builder/
+  </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile - Section 1
+    Section 1 toujours simple.
+    Ligne FROM nomdelimagedebase.
+    L’image est ce qui est exécuté par le contenant (définition du contenant, FS dans le contenant, processus à rouler) et non l’os de base qui lui est l’hôte de contenants (container host) qui roule le contenant.
+    Pas besoin d’installer un nouvel os sur chacun des contenants comme dans le cas d’une VM.
+    On peut mettre des outils liés à un OS; Le ubuntu dans notre cas n’est pas complet , il n’a pas de noyau, il interagit avec celui du système hôte.
+  </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile - Section 1
+    Docker cherche à différents endroits pour voir si l’image y existe (localement, registre).
+    Si aucun registre n'est spécifié, il cherchera sur leur registre propriétaire soit hub.docker.com
+    nom simple = image officielle
+    user/image = image publique modifiée par n’importe qui.
+    Docker donne donc la capacité de distribuer les images construites avec le dockerfile en l’uploadant quelque part pour que quiconque, dans le cas d’une image publique, puisse la télécharger et s’en servir seulement avec le nom de l’image.
+    Pour diffuser une image privée, on peut définir notre propre registre privé ex gcr.io/nomuser/image pour le registre privé fourni par google.
+  </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile - Section 1
+    Les images peuvent également être versionnées, ubuntu :version.
+    FS basé sur ubuntu donne tous les outils fourni avec ubuntu à la même place que dans l’OS complet.
+    On pourrait avoir un hôte RedHat avec un contenant Ubuntu et c’est le noyau Linux RedHat, pareil pour tous les Linux en fait, qui roulera les outils fournis avec Ubuntu pour notre contenant.
+  </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile - Section 2
+    Dans la section 2 on définit les changements que l’on fera, au Ubuntu dans notre cas.
+    Chacun de ces changements créera une nouvelle couche dans notre image de contenant.
+    La ligne RUN exécute ce qui suit, ex. apt-get upgrade, pour mettre à jour la configuration de package management dans une nouvelle couche;
+     apt-get –y install nginx pour installer le serveur web nginx, dans une nouvelle couche.
+    La ligne COPY permet de copier un fichier local index.html (path complet ou répertoire racine/courant du dockerfile) et le placer dans /var/www/html dans notre contenant, encore dans une nouvelle couche et ainsi de suite.
+    On a donc une construction de notre FS avec le disque tel qu’il devrait être quand le contenant va démarrer.
+  </section>
+
+  <section data-markdown>
+    ## Fichier dockerfile - Section 3
+    La Section 3 définit ce qui doit être démarré.
+    La ligne EXPOSE 80 dit à Docker sur quel port TCP s’attendre à recevoir des connexions, ici on ouvre le port 80 de notre contenant.
+    On peut aussi ajouter des variables d’environnement nécessaires à notre processus.
+    La ligne ENTRYPOINT spécifie le processus à démarrer par le processus parent, soit /usr/sbin/nginx –g "daemon off"  (pour ne pas qu’il parte en background car aussitôt que le processus parent termine son exécution le contenant ne sera plus exécuté et donc inactif).
+    Le contenant à la même durée de vie que le processus parent.
+    On aurait pu aussi ajouter une commande RUN pour modifier le fichier de configuration de ngingx à la place de lui spécifier via la ligne de commande.
+  </section>
+</section>
+
+
+<section>
+  <section data-markdown>
+    # Utilisation Docker
+  </section>
+
+  <section data-markdown>
+    ## Commandes Docker
+    Pour construire ce qui est inclus dans le dockerfile, à partir du répertoire actif, la commande est:
+    [docker build .]
+    Docker construit notre fichier en 6 étapes dans ce cas-ci (FROM, RUN, RUN, COPY, EXPOSE, ENTRYPOINT).
+    Docker exécute ligne par ligne, dans l’ordre, contrairement à terraform qui est un peu plus intelligent et voit les dépendances afin de créer les différentes ressources dans l’ordre qui fait du sens.
+  </section>
+
+  <section data-markdown>
+    ## Commandes Docker - build
+    Étape  1: il va chercher l’image ubuntu dans le repo officiel et la télécharge en plusieurs sections car celle-ci a été créée en plusieurs couches via un dockerfile également.
+    2e étape : prend la dernière couche de l’image de base et exécute apt-get update.
+    À la fin de chaque étape, docker donne un ID pour la couche qu’il vient de créer et ainsi de suite pour les autres commandes de la Section 2 et 3.
+    À la fin, docker nous donne l’ID de la couche finale du contenant, l’image finale du contenant.
+  </section>
+
+  <section data-markdown>
+    ## Commandes Docker - tag
+    Cet ID est un nom du type ca0111c35c8d, ce qui n’est pas pratique mais dans le cas de docker on peut lui donner un nom plus lisible, appelé tag.
+    La commande [docker tag idimage tagàluidonner] avec le format de tag : repository user/image:nom version.
+  </section>
+
+  <section data-markdown>
+    ## Commandes Docker - push
+    La commande docker push repo [docker push plecuyer/cr460-cours8] pousse les 3 couches avec des vrais changements (run run copy) et envoie l’image construite vers un repo public ou privé.
+  </section>
+
+  <section data-markdown>
+    # Commandes Docker - run
+    La commande docker run permet de démarrer le contenant à partir d’une image, soit locale ou d’un repo.
+  </section>
+
+  <section data-markdown>
+    ## Commandes Docker - run
+    Dans notre image, on a besoin du port 80.
+    Comme on a plusieurs images qui roulent sur la même machine, le port 80 ne sera pas exposé sur la machine hôte.
+    Il faut dire, quand on démarre le contenant, quel port sera associé avec son port 80, ouvert dans le dockerfile.
+    docker run –p portlocal :portcontenant image
+  </section>
+</section>
+
+<section>
+  <section data-markdown>
+    # Demo - SecurityBot
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot
+    Securitybot est une application Open Source développée par Dropbox afin de filtrer les alertes de sécurité qu’on pourrait recevoir.
+    Permet d’intégrer nos utilisateurs dans le processus d’alerte et aller confirmer avec eux si c’est bien eux qui ont fait l’activité en question.
+    3 morceaux : le bot qui lit les alertes et discute via Slack pour déterminer si c’est bien l’utilisateur qui a fait l’action détectée comme anormale si c’était justifié,  un GUI web, une BD mySQL dans laquelle on stock et va chercher les alertes.
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot - dockerfile
+    On va se créer un dockerfile qui va partir le bot, le même dockerfile va partir, avec une option différente, le Frontend.
+    Pas besoin de dockerfile pour la BD, déjà existant.  On va lier tout ça ensemble pour partir un ensemble de 3 contenants liés qui rouleront chacun leur partie.
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot - dockerfile section 1
+    Comme le securitybot est écrit en python, notre image de base sera
+    FROM python :2.7
+  </section>
+
+  <section>
+    ## SecurityBot - dockerfile section 2
+    Ligne
+    COPY . /securitybot
+    copie le contenu du répertoire contenant le code du securitybot vers /securitybot du contenant.
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot - dockerfile section 2
+    Ligne
+    ENV PYTHONPATH $PYTHONPATH:/securitybot
+    Par défaut, le contenant hérite des variables d’environnement de la session qui a démarré le contenant, par contre on peut avoir besoin de variables différentes pour l’exécution du contenant, ce sont des métadonnées stockées avec le contenant donc pas de nouvelle couche.
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot - dockerfile section 2
+    Ligne
+    RUN …. \ ….. \
+    au lieu de plusieurs lignes de RUN permet de faire une seule couche pour ces modifications.
+    Dans certains cas il est bon d’avoir plusieurs couches à l’application pour être très modulaire.
+    Par contre, similairement aux snapshots, plus le nombre de couches est élevé plus la performance est affectée à la baisse, surtout quand on a beaucoup de couches car il faut trouver la bonne couche quand on va essayer d’aller lire nos données.
+    Si on a des commandes qui sont reliées, ex installer des prérequis, il est recommandé de les mettre ensemble.
+    Plusieurs RUN surtout utile si on a des groupes commandes pour des fonctions différentes.
+    Cette section contient: mises à jour du package management, client mySQL  qui inclut les librairies mySQL et est nécessaire pour se connecter à la BD
+    pip est la commande du package management de python et demande d’installer les packages nécessaires pour le securitybot
+    useradd crée un utilisateur pour pouvoir rouler le securitybot en tant qu’utilisateur différent de root pour des raisons de sécurité.
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot - dockerfile section 3
+    USER permet de choisir l’utilisateur qui roulera les processus dans le contenant
+    WORKDIR spécifie dans quel répertoire du contenant exécuter les processus
+    ENTRYPOINT est la commande à exécuter.
+    On exécute ici un shellscript qui s’assure qu’on peut se connecter à la base de données, la peupler si elle est vide, partir soit le bot ou le frontend selon ce qui a été demandé en commande.
+  </section>
+
+  <section data-markdown>
+    ## SecurityBot - dockerfile - repo
+    On peut donc construire notre image et la pousser à un repo.
+    quay.io est un registre créé par CoreOS ayant l'avantage de faire des scans de vulnérabilités en plus de stocker des images de contenants.
+    On a une image mais ses composantes ont des dépendances, ici la base de données.
+    Si on part l’image de contenant juste comme ça, il ne se passera rien car on n’a pas de BD pour se connecter.
+    On va vouloir lier plusieurs contenants ensemble, aujourd’hui localement, avec l’outil Docker Compose.
+    Un orchestrateur permettra de lier des contenants sur un ensemble de machines qui roulent docker, sera vu plus tard.
+  </section>
+</section>
+
+<section>
+  <section data-markdown>
+    # Demo SecurityBot
+    ## docker-compose
+  </section>
+
+  <section data-markdown>
+    #docker-compose
+    DockerCompose permet de définir un ensemble de contenants et leur configuration et de partir ça dans un bloc comme un ensemble de services.
+    Dans Atom, package Docker.
+    Le fichier docker-compose.yml permet de définir un certain nombre de services, chacun représentant un contenant (bot, db, frontend).
+    https://docs.docker.com/compose/compose-file/
+  </section>
+
+  <section data-markdown>
+    #docker-compose
+    À l’intérieur de chacun des services, on définit des métadonnées.
+    Les paramètres pour rouler l’image comme la correspondance de ports peuvent y être définis.
+  </section>
+
+  <section data-markdown>
+    #docker-compose
+    Yml est un format de markup utilisé beaucoup pour la configuration, nottamment par Kubernetes.
+    Attention aux espaces et indentation, format très facile à lire et très dense comparativement à JSON.
+    Pour déployer des applications c’est très pratique, pas besoin de donner une procédure d’installation, donner les bonnes versions de clients de BD etc, on a un fichier qui le fait automatiquement.
+    Avec l’orchestrateur, on pourra même lui dire : "j’ai besoin de 3 front-end de version différentes ou augmenter le nombre en fonction de la charge, déploie ca à travers plusieurs machines dans un cluster" sans se soucier des mises à jour ou dépendances.
+    Si on a besoin de mettre à jour l’application, juste à changer la version de l’image, on tue le contenant et on le repart avec la nouvelle version.
+  </section>
+
 </section>

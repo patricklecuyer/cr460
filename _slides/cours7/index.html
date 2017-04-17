@@ -85,7 +85,7 @@ reveal_config:
     En partant  un 2e contenant sur la même machine, [ps] ne verra pas les processus du contenant voisin.
     L'hyperviseur en dessous voit les différents processus de chaque contenant car il n'y a qu'un ordonnanceur, une table de descripteurs.
     Docker crée seulement des barrières entre chacun et isole également le système de fichiers.
-    Chacun des contenants a un système indépendant et ne peut interagir avec ceux du voisin.
+    Chacun des contenants a un système indépendant et ne peut interagir directement avec les processus du voisin.
     Séparation au niveau du réseau également mais il est possible d’exposer des ports pour leur permettre de communiquer.
     Les 3 niveaux d’isolation donnent une manière de packager des applications facilement, évite l’interaction négative entre les processus.
   </section>
@@ -109,15 +109,9 @@ reveal_config:
     Docker permet de faire des demandes au noyau pour créer des contenants, choisir les caractéristiques et fournir l’image disque associée au système de fichiers de ce contenant.
     Procfile expliquait à Heroku quoi démarrer, le dockerfile est équivalent mais va construire l’image de contenant pour déployer l’application.
     Recommandé de n’utiliser que les images de dockerfile officielles, venant d’une source fiable.
+    Le repo Docker Hub est un registre de contenants.
   </section>
 
-  <section data-markdown>
-    # Docker
-    Docker permet de faire des demandes au noyau pour créer des contenants, choisir les caractéristiques et fournir l’image disque associée au système de fichiers de ce contenant.
-    Procfile expliquait à Heroku quoi démarrer, le dockerfile est équivalent mais va construire l’image de contenant pour déployer l’application.
-    Recommandé de n’utiliser que les images de dockerfile officielles, venant d’une source fiable.
-    Docker Hub.  Le repo est un registre de containants.
-  </section>
 </section>
 
 <section>
@@ -127,6 +121,7 @@ reveal_config:
     Attention aux anciennes versions de windows.
     Bonne compatiblité Mac et Linux.
     Une VM ubuntu est utile pour des raisons de compatiblité
+    http://www.wikihow.com/Install-Ubuntu-on-VirtualBox
     https://docs.docker.com/
     https://docs.docker.com/engine/getstarted/
   </section>
