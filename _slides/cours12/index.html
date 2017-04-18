@@ -24,62 +24,97 @@ reveal_config:
 
   <section data-markdown>
     ## Rappel - Concepts
-    On avait défini un contenant, un espace isolé du reste de l’OS, qui doit être peuplé; le dockerfile défini le contenu de l’image (disque (image de base, installations, ajouts fichiers puis instructions d’exécution).
-    Un contenant tout seul n’est pas particulièrement utile, on aimerait en avoir plusieurs pour notre application.
-    Notre objectif est de segmenter l’application le plus possible, d'un mode monolithique vers des petites composantes, l’architecture micro-services.
+    * On avait défini un contenant, un espace isolé du reste de l’OS, qui doit être peuplé; le dockerfile défini le contenu de l’image (disque (image de base, installations, ajouts fichiers puis instructions d’exécution).
+
+    * Un contenant tout seul n’est pas particulièrement utile, on aimerait en avoir plusieurs pour notre application.
+
+    * Notre objectif est de segmenter l’application le plus possible, d'un mode monolithique vers des petites composantes, l’architecture micro-services.
   </section>
 
   <section data-markdown>
-    Le mode monolithique avec des fonctionnalités non séparés manque de flexibilité, l’application est difficile à faire évoluer si on veut seulement changer une seule fonctionnalité il faut tout redéployer et c’est extrêmement lourd à gérer.
-    Nuit également à la capacité d’être élastique, étaient conçues avec sizing initial selon un nombre d’utilisateurs donnés, nombre de serveurs donnés, etc.  avec une infrastructure statique.
-    Difficile de donner plus de capacité à une fonctionnalité plus demandant, très rare de faire du scale down.
-    En micro-services, les composantes ne sont pas couplées solidement.
-    L’application est séparée en ses fonctionnalités, modules indépendants mais liés ensembles.
-    On appelle ces fonctionnalités Services avec l’objectifs qu’ils soient le plus petits possible.
+    ## Rappel - Concepts
+
+    * Le mode monolithique avec des fonctionnalités non séparés manque de flexibilité, l’application est difficile à faire évoluer si on veut seulement changer une seule fonctionnalité il faut tout redéployer et c’est extrêmement lourd à gérer.
+
+    * Nuit également à la capacité d’être élastique, étaient conçues avec sizing initial selon un nombre d’utilisateurs donnés, nombre de serveurs donnés, etc.  avec une infrastructure statique.
+
+    * Difficile de donner plus de capacité à une fonctionnalité plus demandant, très rare de faire du scale down.
+
+    * En micro-services, les composantes ne sont pas couplées solidement.
+
+    * L’application est séparée en ses fonctionnalités, modules indépendants mais liés ensembles.
+
+    * On appelle ces fonctionnalités Services avec l’objectifs qu’ils soient le plus petits possible.
   </section>
 
   <section data-markdown>
-    Services individuels 100% indépendants qui vont gérer une portion de ce que l’application et peuvent interagir entre eux.
-    Amène une flexibilité car si on a seulement des interactions entre les services via des protocoles standards, comme HTTP/REST, on va faire un API qui l’utilise pour faire un appel.
-    Avec un API publié et des services pouvant interagir,  un service n’a pas besoin de connaitre aucun autre service sauf ceux avec qui il communique.
-    JSON encodage pour passer les données (XML plus lourd mais possible), REST méthode de faire les requêtes.
-    Chaque service présente un API pour permettre la connexion d’autres services, spécifier comment parler avec lui, seulement besoin de connaitre l’API.
+    ## Rappel - Concepts
+    *  Services individuels 100% indépendants qui vont gérer une portion de ce que l’application et peuvent interagir entre eux.
+
+    * Amène une flexibilité car si on a seulement des interactions entre les services via des protocoles standards, comme HTTP/REST, on va faire un API qui l’utilise pour faire un appel.
+
+    * Avec un API publié et des services pouvant interagir,  un service n’a pas besoin de connaitre aucun autre service sauf ceux avec qui il communique.
+
+    * JSON encodage pour passer les données (XML plus lourd mais possible), REST méthode de faire les requêtes.
+
+    * Chaque service présente un API pour permettre la connexion d’autres services, spécifier comment parler avec lui, seulement besoin de connaitre l’API.
   </section>
 
   <section data-markdown>
-    Réduit la complexité car le service ne doit se soucier que du sous-ensemble de fonctionnalités avec lequel il interagit et de présenter ses fonctionnalités aux autres services.
-    Permet de potentiellement utiliser des technologies différentes derrière chaque service (python, go, nod.js)
-    En mode monolithique, utiliser un outil technologique le meilleur pour la tâche très précise à exécuter n’est pas une opportunité, plutôt solution moyenne, general purpose, qui fonctionne correctement mais pas particulièrement excellente pour effectuer chaque tâche individuelle.
+    ## Rappel - Concepts
+    * Réduit la complexité car le service ne doit se soucier que du sous-ensemble de fonctionnalités avec lequel il interagit et de présenter ses fonctionnalités aux autres services.
+
+    * Permet de potentiellement utiliser des technologies différentes derrière chaque service (python, go, nod.js)
+
+    * En mode monolithique, utiliser un outil technologique le meilleur pour la tâche très précise à exécuter n’est pas une opportunité, plutôt solution moyenne, general purpose, qui fonctionne correctement mais pas particulièrement excellente pour effectuer chaque tâche individuelle.
   </section>
 
   <section data-markdown>
-    Premier problème : déployer l’application.
-    Difficile déjà en monolithique, encore plus difficile d’avoir plusieurs applications indépendantes, utilisant des technologies indépendantes, développées par des gens différents, challenge opérationnel.
-    Gain en flexibilité mais problème relativement grave de déploiement et c’est là que les contenants interviennent.
-    Rien de nouveau dans la technologie de containers elle-même mais plutôt dans la façon de les utiliser pour aider à régler le problème de distribution d’application, qui est la même raison pour laquelle on avait des containers sur les mainframes des années 70.
+    ## Rappel - Concepts
+
+    * Premier problème : déployer l’application.
+
+    * Difficile déjà en monolithique, encore plus difficile d’avoir plusieurs applications indépendantes, utilisant des technologies indépendantes, développées par des gens différents, challenge opérationnel.
+
+    * Gain en flexibilité mais problème relativement grave de déploiement et c’est là que les contenants interviennent.
+
+    * Rien de nouveau dans la technologie de containers elle-même mais plutôt dans la façon de les utiliser pour aider à régler le problème de distribution d’application, qui est la même raison pour laquelle on avait des containers sur les mainframes des années 70.
   </section>
 
   <section data-markdown>
-    Définir un contexte d’exécution sur des machines pour lesquelles ils étaient extrêmement complexes, séparer contexte et ne pas avoir d’interaction avec le reste de ce qui roulait sur la machine et sauver l’état de ce contexte d’exécution.
-    Aujourd’hui, le contexte est propre à l’application, pas particulièrement complexe mais énormément de contextes d’exécution différents qu,on veut être capable de définir.
-    VM/CMS sur mainfarme était un container mais pas de virtualisation matérielle.
-    Les dockerfile, définition d’image de container, pour définir les contextes d’exécution.
-    Majorité des cas une image de contenant n’est pas suffisante pour le service car il peut avoir des dépendances, ex une DB, serveur api, worker  chacun de ces services, aussi petits qu’ils soient, sont des applications entières avec leurs dépendances et besoins propres.
+    ## Rappel - Concepts
+    * Définir un contexte d’exécution sur des machines pour lesquelles ils étaient extrêmement complexes, séparer contexte et ne pas avoir d’interaction avec le reste de ce qui roulait sur la machine et sauver l’état de ce contexte d’exécution.
+
+    * Aujourd’hui, le contexte est propre à l’application, pas particulièrement complexe mais énormément de contextes d’exécution différents qu,on veut être capable de définir.
+
+    * VM/CMS sur mainfarme était un container mais pas de virtualisation matérielle.
+
+    * Les dockerfile, définition d’image de container, pour définir les contextes d’exécution.
+
+    * Majorité des cas une image de contenant n’est pas suffisante pour le service car il peut avoir des dépendances, ex une DB, serveur api, worker  chacun de ces services, aussi petits qu’ils soient, sont des applications entières avec leurs dépendances et besoins propres.
   </section>
 
   <section data-markdown>
-    Définir image de contenants pour chaque portion qu,on a besoin pour l’application.  Permet de définir ce qu’on a besoin pour rouler la petite application.
-    On règle le problème de packaging, contexte d’exécution mais pas le déploiement de ces contextes d’exécution et c’est là que l’orchestrateur intervient.
-    Docker permet de définir le contexte d’exécution dans un mode répliquable et où on est convaincus que ce sera le même à chaque fois.
-    Un container on veut qu’il soit immuable, on ne fera pas de changements dessus on va faire une autre image de contenant à la place si on a besoin d’une nouvelle version.
-    Capable de s’assurer que l’environnement d’exécution sera toujours le même.
-    Utile pour des pipeline de tests.
+    * Définir image de contenants pour chaque portion qu,on a besoin pour l’application.  Permet de définir ce qu’on a besoin pour rouler la petite application.
+
+    * On règle le problème de packaging, contexte d’exécution mais pas le déploiement de ces contextes d’exécution et c’est là que l’orchestrateur intervient.
+    * Docker permet de définir le contexte d’exécution dans un mode répliquable et où on est convaincus que ce sera le même à chaque fois.
+
+    * Un container on veut qu’il soit immuable, on ne fera pas de changements dessus on va faire une autre image de contenant à la place si on a besoin d’une nouvelle version.
+
+    * Capable de s’assurer que l’environnement d’exécution sera toujours le même.
+
+    * Utile pour des pipeline de tests.
   </section>
 
   <section data-markdown>
-    Problématique où tout fonctionne bien sur la machine du développeur, tout fonctionne bien en QA mais pas en prod, peut prendre plusieurs semaines à trouver ce qui est différent entre prod et QA.
-    En couplant le service avec son contexte d’exécution, peu importe où il roule, enlève pas 100% des problèmes mais en règle beaucoup.
-    Pour déployer avec flexibilité et élasticité, on le fait avec un orchestrateur comme Kubernetes.
+    ## Rappel - Concepts
+
+    * Problématique où tout fonctionne bien sur la machine du développeur, tout fonctionne bien en QA mais pas en prod, peut prendre plusieurs semaines à trouver ce qui est différent entre prod et QA.
+
+    * En couplant le service avec son contexte d’exécution, peu importe où il roule, enlève pas 100% des problèmes mais en règle beaucoup.
+
+    * Pour déployer avec flexibilité et élasticité, on le fait avec un orchestrateur comme Kubernetes.
   </section>
 </section>
 
@@ -91,102 +126,175 @@ reveal_config:
 
   <section data-markdown>
     ## Orchestrateur - fonctionnement
-    L’orchestrateur roule dans une infrastructure.
-    Il a fondamentalement 2 types de morceaux : des nodes qui sont des machines virtuelles ou physiques roulant un OS, souvent très minimal, en mesure d’exécuter des contenants, avec kubernetes; les nodes sont un bassin de ressources.
-    L’autre morceau est le Master, ayant 2 principaux morceaux le API server et le Scheduler.
-    La commande kubectl traduit notre demande en appel d’API REST et l’envoie au API server afin de pouvoir interagir avec le cluster.
-    Quand c’est une requête pour créer des objets, le API server appelle le Scheduler, qui prendra des décisions sur où le rouler avec une logique qui est modifiable.
-    Par défaut, il préfère mettre les copies de pods sur des nodes différents, priorisant le node ayant le moins de charge.
-    Si jamais on n’a plus de capacité, le Scheduler va nous aviser qu’il ne peut déployer pour manque de ressources.
-    Pour contrer, dans un environnement élastique, on définit de l’auto-scaling afin d’avoir des nodes supplémentaires au besoin.
-    Sur GCP, il suffit d’activer l’auto-scaling à la création du cluster, ce qui pourrait également signifier des déplacements de pods sur des nodes ayant de la capacité en surplus afin de détruire un node peu utilisé.
+    * L’orchestrateur roule dans une infrastructure.
+
+    * Il a fondamentalement 2 types de morceaux : des nodes qui sont des machines virtuelles ou physiques roulant un OS, souvent très minimal, en mesure d’exécuter des contenants, avec kubernetes; les nodes sont un bassin de ressources.
+
+    * L’autre morceau est le Master, ayant 2 principaux morceaux le API server et le Scheduler.
+
+    * La commande kubectl traduit notre demande en appel d’API REST et l’envoie au API server afin de pouvoir interagir avec le cluster.
   </section>
 
   <section data-markdown>
     ## Orchestrateur - fonctionnement
-    On a donc plus besoin de se soucier sur quel serveur, quel nœud, quel endroit physique, etc. l’application va rouler.
-    En décrivant, à l’aide de Manifest pour le déploiement et autres types d’objets, et l’envoyer au Scheduler qui décidera pour nous.
-    Il y a aussi moyen de faire des jobs qui rouleraient pour une durée ou selon un horaire défini, tels que des cron jobs.
-    Pas besoin de mettre un cron job sur un serveur, on demande simplement au Scheduler de le démarrer au moment voulu.
-    On ne met jamais de cron job sur un container, on laisse l’orchestrateur partir un contenant pour rouler la job et l’arrêter une fois celle-ci terminée.
+    * Quand c’est une requête pour créer des objets, le API server appelle le Scheduler, qui prendra des décisions sur où le rouler avec une logique qui est modifiable.
+
+    * Par défaut, il préfère mettre les copies de pods sur des nodes différents, priorisant le node ayant le moins de charge.
+
+    * Si jamais on n’a plus de capacité, le Scheduler va nous aviser qu’il ne peut déployer pour manque de ressources.
+  </section>
+
+  <section data-markdown>
+    ## Orchestrateur - fonctionnement
+    * Pour contrer, dans un environnement élastique, on définit de l’auto-scaling afin d’avoir des nodes supplémentaires au besoin.
+
+    * Sur GCP, il suffit d’activer l’auto-scaling à la création du cluster, ce qui pourrait également signifier des déplacements de pods sur des nodes ayant de la capacité en surplus afin de détruire un node peu utilisé.
+  </section>
+
+  <section data-markdown>
+    ## Orchestrateur - fonctionnement
+    * On a donc plus besoin de se soucier sur quel serveur, quel nœud, quel endroit physique, etc. l’application va rouler.
+
+    * En décrivant, à l’aide de Manifest pour le déploiement et autres types d’objets, et l’envoyer au Scheduler qui décidera pour nous.
+
+    * Il y a aussi moyen de faire des jobs qui rouleraient pour une durée ou selon un horaire défini, tels que des cron jobs.
+
+    * Pas besoin de mettre un cron job sur un serveur, on demande simplement au Scheduler de le démarrer au moment voulu.
+
+    * On ne met jamais de cron job sur un container, on laisse l’orchestrateur partir un contenant pour rouler la job et l’arrêter une fois celle-ci terminée.
   </section>
 
   <section data-markdown>
     ## Labo
-    ON va se créer un système pour déployer les images dans une infrastructure.
-    Kubernetes, mesos, docker swarm sont des outils similaires mais Linux foundation a choisi Kubernetes pour orchestration de contenants.
-    Version Open Source d’un système interne Google appelé BORG.
-    Il faudra décrire l’application, avec des manifestes (terme générique – description textuelle, structurée de certains objets servant à gérer l’application).
+    * On va se créer un système pour déployer les images dans une infrastructure.
+
+    * Kubernetes, mesos, docker swarm sont des outils similaires mais Linux foundation a choisi Kubernetes pour orchestration de contenants.
+
+    * Version Open Source d’un système interne Google appelé BORG.
+
+    * Il faudra décrire l’application, avec des manifestes (terme générique – description textuelle, structurée de certains objets servant à gérer l’application).
   </section>
 
   <section data-markdown>
-    Terraform permettait de définir de manière déclarative une infrastructure plus classique (VM, load balancer,pare-feu, etc.)
-    Le manifeste définit des objets qui vont rouler dans l’orchestrateur pour définir le comportement de l’application.
+    ## Labo
+    * Terraform permettait de définir de manière déclarative une infrastructure plus classique (VM, load balancer,pare-feu, etc.)
+
+    * Le manifeste définit des objets qui vont rouler dans l’orchestrateur pour définir le comportement de l’application.
   </section>
 
   <section data-markdown>
-    ## deployment
-    Objet de type déploiement, similaire au docker-compose.
-    Configuration d’un ou plusieurs contenants et des métadonnées autour.
-    Un déploiement définit la structure du module applicatif (images de container, nombre de copies, si update fait un rolling update, si un service tombe reboot le contenant, quel port écouter)à un niveau très bas quels composantes représenteront le service.
-    Nombre de copies pour 2 raisons, redondance (disponibilité) ou performance (parallélisme).
-    Très près de l’infrastructure classique quand on ajoute des morceaux.
+    ## Deploiement
+
+    * Objet de type déploiement, similaire au docker-compose.
+
+    * Configuration d’un ou plusieurs contenants et des métadonnées autour.
+    /section>
+
+    <section data-markdown>
+      ## Deploiement
+    * Un déploiement définit la structure du module applicatif (images de container, nombre de copies, si update fait un rolling update, si un service tombe reboot le contenant, quel port écouter)à un niveau très bas quels composantes représenteront le service.
+
+    * Nombre de copies pour 2 raisons, redondance (disponibilité) ou performance (parallélisme).
+
+    * Très près de l’infrastructure classique quand on ajoute des morceaux.
   </section>
 
-  <section data-markdown>
-    ## deployment
-    Fichier nginx-deployment.yaml
-    Indentation importante, version d’API Kubernetes, type (kind).
-    Différents types d’objets Kubernetes avec impact différent sur orchestrateur.
-    Déploiement, Service, Ingress, Secrets, Configman.
-    https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
-  </section>
+  /section>
 
   <section data-markdown>
-    ## Fichier deployment - contenu
-    Metadata selon le type d’objet, ici seulement un nom.
-    Spec définit les caractéristiques de l’objet déploiement, difficile de s’en rappeler par coeur alors utiliser la documentation.
-    Replicas est le nombre de copies du déploiement roulant en tout temps, pas nécessairement le nombre de nodes.
-    Quand on rajoutera Services et Ingress, il y a moyen de les utiliser pour faire un équilibrage de charge entre plusieurs copies (ex les containers seront démarrés 3 fois et l’orchestrateur prendra la décision sur où).
-    Les replicas amènent de la flexibilité sur la disponibilité, si un service est important on ne veut pas nécessairement qu’il soit lié à un node
-    On ne veut pas attendre que les contenants soient rescédulés si le node tombe.
-    On veut s’assurer qu’il ne roulera pas seul sur son node et niveau performance scaler la quantité de nginx qui vont rouler afin de suivre le besoin en capacité.
-    Moyen de faire du autoscaling direct en incorporant des metriques.
-  </section>
+    ## Deploiement
+    * Fichier nginx-deployment.yaml
 
-  <section data-markdown>
-    ## Fichier deployment - contenu
-    Template définit le contenu du déploiement, fondamentalement une liste de containers.
-    L’ensemble de contenants roulant ensemble tels que définis dans le déploiement est appelé un pod.
-    Le déploiement est l’enveloppe qui dit à l’orchestrateur comment définir les pods, combien en rouler, etc. et le pod est l’objet qui va rouler l’ensemble d’images de contenants, normalement associés à un seul service de l’architecture micro-services.
-  </section>
+    * Indentation importante, version d’API Kubernetes, type (kind).
 
-  <section data-markdown>
-    Le template peut avoir des métadonnées, soit une tag disant que l’application est nginx
-    Important de le dire car quand on mettra des services on utilisera ces métadonnées pour que l’orchestrateur entre différents objets liés puisse se retrouver sans connaitre tous les détails réseau.
-    Juste des métadonnées, description, tant que c’est pas vérifié par un autre objet.
+    * Différents types d’objets Kubernetes avec impact différent sur orchestrateur.
+
+    * Déploiement, Service, Ingress, Secrets, Configman.
+
+    * https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
   </section>
 
   <section data-markdown>
     ## Fichier deployment - contenu
-    Sous Spec on a la liste des contenants avec leur nom, l’image et les ports d’écoute, similaire au docker-compose, donne l’information à Kubernetes sur comment effectuer le déploiement.
-    On donne le nombre de répliques et un modèle de contenant où on spécifie les métadonnées, des attributs arbitraires pour décrire le contenant : des étiquettes (labels) qui donnent le nom de l’application, le nom de l’environnement, la révision, etc. afin de permettre d’identifier des contenants selon leurs propriétés via les sélecteurs.
-    Dans les spec du modèle, on vient définir le contenant qui roulera dans le déploiement avec un nom, une image de base, les ports d’écoute.
-    Si on avait un 2e contenant il suffirait d’ajouter les informations, comme dans un dockerfile.
+
+    * Metadata selon le type d’objet, ici seulement un nom.
+
+    * Spec définit les caractéristiques de l’objet déploiement, difficile de s’en rappeler par coeur alors utiliser la documentation.
+
+    * Replicas est le nombre de copies du déploiement roulant en tout temps, pas nécessairement le nombre de nodes.
+  </section>
+
+  <section data-markdown>
+    ## Fichier deployment - contenu
+    * Quand on rajoutera Services et Ingress, il y a moyen de les utiliser pour faire un équilibrage de charge entre plusieurs copies (ex les containers seront démarrés 3 fois et l’orchestrateur prendra la décision sur où).
+
+    * Les replicas amènent de la flexibilité sur la disponibilité, si un service est important on ne veut pas nécessairement qu’il soit lié à un node
+
+    * On ne veut pas attendre que les contenants soient rescédulés si le node tombe.
+  </section>
+
+  <section data-markdown>
+    ## Fichier deployment - contenu
+    * On veut s’assurer qu’il ne roulera pas seul sur son node et niveau performance scaler la quantité de nginx qui vont rouler afin de suivre le besoin en capacité.
+
+    * Moyen de faire du autoscaling direct en incorporant des metriques.
+  </section>
+
+  <section data-markdown>
+    ## Fichier deployment - contenu
+
+    * Template définit le contenu du déploiement, fondamentalement une liste de containers.
+
+    * L’ensemble de contenants roulant ensemble tels que définis dans le déploiement est appelé un pod.
+
+    * Le déploiement est l’enveloppe qui dit à l’orchestrateur comment définir les pods, combien en rouler, etc. et le pod est l’objet qui va rouler l’ensemble d’images de contenants, normalement associés à un seul service de l’architecture micro-services.
+  </section>
+
+  <section data-markdown>
+    <section data-markdown>
+    ## Fichier deployment - contenu
+    * Le modele peut avoir des métadonnées, soit une tag disant que l’application est nginx
+
+    * Important de le dire car quand on mettra des services on utilisera ces métadonnées pour que l’orchestrateur entre différents objets liés puisse se retrouver sans connaitre tous les détails réseau.
+
+    * Juste des métadonnées, description, tant que c’est pas vérifié par un autre objet.
+  </section>
+
+  <section data-markdown>
+    ## Fichier deployment - contenu
+
+    * Sous Spec on a la liste des contenants avec leur nom, l’image et les ports d’écoute, similaire au docker-compose, donne l’information à Kubernetes sur comment effectuer le déploiement.
+
+    * On donne le nombre de répliques et un modèle de contenant où on spécifie les métadonnées, des attributs arbitraires pour décrire le contenant : des étiquettes (labels) qui donnent le nom de l’application, le nom de l’environnement, la révision, etc. afin de permettre d’identifier des contenants selon leurs propriétés via les sélecteurs.
+  </section>
+
+  <section data-markdown>
+    ## Fichier deployment - contenu
+    * Dans les spec du modèle, on vient définir le contenant qui roulera dans le déploiement avec un nom, une image de base, les ports d’écoute.
+
+    * Si on avait un 2e contenant il suffirait d’ajouter les informations, comme dans un dockerfile.
   </section>
 
   <section data-markdown>
     ## Commandes
-    Kubectl est la commande permettant d’interagir avec le cluster.
-    Prend une commande à la suite.
-    kubectl create –f chemin/fichier.yaml permet de créer un objet à partir d’un fichier manifeste.
-    kubectl get deployments va nous montrer les objets créés par le déploiement.
-    kubectl get pods va nous montrer les pods.
-    kubectl scale deployment nginx-deployment –replicas 2 va scaler le déploiement sans le modifier.
-    kubectl get pods pour voir les pods
-    Kubectl describe deployment nom nous donne plus d’informations sur le déploiement, comme dans l’interface web.
-    kubectl proxy pour lancer l'interface graphique, écoute sur localhost:8001/ui et affiche l’utilisation courante du cluster.
-     Ne permet pas les modifications.
+    * Kubectl est la commande permettant d’interagir avec le cluster.
+    * Prend une commande à la suite.
+    * kubectl create –f chemin/fichier.yaml permet de créer un objet à partir d’un fichier manifeste.
+    * kubectl get deployments va nous montrer les objets créés par le déploiement.
+  </section>
+
+  <section data-markdown>
+    ## Commandes
+    * kubectl get pods va nous montrer les pods.
+    * kubectl scale deployment nginx-deployment –replicas 2 va scaler le déploiement sans le modifier.
+    * kubectl get pods pour voir les pods
+  </section>
+
+  <section data-markdown>
+    ## Commandes
+    * kubectl describe deployment nom nous donne plus d’informations sur le déploiement, comme dans l’interface web.
+    * kubectl proxy pour lancer l'interface graphique, écoute sur localhost:8001/ui et affiche l’utilisation courante du cluster.
+
   </section>
 </section>
 
@@ -197,27 +305,49 @@ reveal_config:
 
   <section data-markdown>
     ## Kubernetes - Objet de type Service
-    Par défaut, les containers sur Kubernetes sont seulement accessibles sur le réseau à l’intérieur du même pod.
-    À moins d’aller définir l’interface entre ces contenants et le reste du monde, ils demeurent isolés dans leur pod.
-    Un autre Manifest va servir à créer un objet Kubernetes de type Service.
-    Définir une manière par laquelle les pods vont interagir est particulièrement important car si on a plusieurs copies d’un service A, un service B ne peut pas décider tout seul auquel il va se connecter.
-    Il faut lier le concept du service avec les contenants.
-    L’objet de type service est une couche d’abstraction qui fera un lien entre ce qui peut être accédé sur le réseau, les métadonnées autour de cet accès et les pods qui peuvent rendre le service.
-    Il va définir quel pod sont dans le service via un sélecteur qui recherchera parmi les attributs de ceux-ci.
-    Il faut définir le port du service car, dans certains cas, si le contenant écoute sur 2 ports il peut y avoir 2 services différents associés correspondant au même sélecteur.
-    Ex. application ayant un port d’administration et un port pour servir une page web.
+    * Par défaut, les containers sur Kubernetes sont seulement accessibles sur le réseau à l’intérieur du même pod.
+
+    * À moins d’aller définir l’interface entre ces contenants et le reste du monde, ils demeurent isolés dans leur pod.
+
+    * Un autre Manifest va servir à créer un objet Kubernetes de type Service.
   </section>
 
   <section data-markdown>
     ## Kubernetes - Objet de type Service
-    Métadonnées habituelles, type service, version d’api, nom du service.
-    Dans le spec, le selector est très important.
-    On avait mis un label sur le déploiement, va aider via le sélecteur à trouver certains objets selon des propriétés.
-    Le service s’applique à tous les containers ayant la valeur app :nginx  et seulement aux contenants correspondants.
-    Applicable seulement aux containants ayant le label donné.
-    Le protocole TCP, type Nodeport(un port aléatoire sur chacun des nodes, forwardé au targetPort du contenant) et targetPort(port sur le contenant qui sera connecté)
-    va dire quelle connectivité réseau devrait être permise vers les différents contenants sélectionnés préalablement.
-    On ne peut toujours pas accéder en dehors du cluster.
+    * Définir une manière par laquelle les pods vont interagir est particulièrement important car si on a plusieurs copies d’un service A, un service B ne peut pas décider tout seul auquel il va se connecter.
+
+    * Il faut lier le concept du service avec les contenants.
+
+    * L’objet de type service est une couche d’abstraction qui fera un lien entre ce qui peut être accédé sur le réseau, les métadonnées autour de cet accès et les pods qui peuvent rendre le service.
+
+    * Il va définir quel pod sont dans le service via un sélecteur qui recherchera parmi les attributs de ceux-ci.
+  </section>
+
+  <section data-markdown>
+    ## Kubernetes - Objet de type Service
+    * Il faut définir le port du service car, dans certains cas, si le contenant écoute sur 2 ports il peut y avoir 2 services différents associés correspondant au même sélecteur.
+
+    * Ex. application ayant un port d’administration et un port pour servir une page web.
+  </section>
+
+  <section data-markdown>
+    ## Kubernetes - Objet de type Service
+    * Métadonnées habituelles, type service, version d’api, nom du service.
+    * Dans le spec, le selector est très important.
+    * On avait mis un label sur le déploiement, va aider via le sélecteur à trouver certains objets selon des propriétés.
+  </section>
+
+  <section data-markdown>
+    ## Kubernetes - Objet de type Service
+    * Le service s’applique à tous les containers ayant la valeur app :nginx  et seulement aux contenants correspondants.
+    * Applicable seulement aux containants ayant le label donné.
+    * Le protocole TCP, type Nodeport(un port aléatoire sur chacun des nodes, forwardé au targetPort du contenant) et targetPort(port sur le contenant qui sera connecté)
+  </section>
+
+  <section data-markdown>
+    ## Kubernetes - Objet de type Service
+    * Va dire quelle connectivité réseau devrait être permise vers les différents contenants sélectionnés préalablement.
+    * On ne peut toujours pas accéder en dehors du cluster.
   </section>
 
   <section data-markdown>
@@ -227,17 +357,21 @@ reveal_config:
 
   <section data-markdown>
     ## Kubernetes - utilisation du type Service
-    Lors de la création du service, une définition de service sera également créée avec une adresse ip et entrée DNS associées à l’intérieur du cluster.
-    N’importe quel contenant d’un pod essayant de se connecter au Service sera redirigé vers le bon nœud, sur le bon port aléatoire, par l’orchestrateur et la connexion sera forwardée au bon port sur le bon contenant, en fonction des règles définies dans le Manifest du Service.
-    Un 2e service n’aurait donc besoin de connaitre que le nom du 1er pour se connecter aux contenants dans les pods.
-    Les différents services peuvent donc communiquer et s’identifier entre eux.
-    L’orchestrateur publie un namespace sur lequel les services peuvent faire de la découverte de services, requêtes DNS standard mais sans savoir qu’on parle à un orchestrateur.
+    * Lors de la création du service, une définition de service sera également créée avec une adresse ip et entrée DNS associées à l’intérieur du cluster.
+    * N’importe quel contenant d’un pod essayant de se connecter au Service sera redirigé vers le bon nœud, sur le bon port aléatoire, par l’orchestrateur et la connexion sera forwardée au bon port sur le bon contenant, en fonction des règles définies dans le Manifest du Service.
+  </section>
+
+  <section data-markdown>
+    ## Kubernetes - utilisation du type Service
+    * Un 2e service n’aurait donc besoin de connaitre que le nom du 1er pour se connecter aux contenants dans les pods.
+    * Les différents services peuvent donc communiquer et s’identifier entre eux.
+    * L’orchestrateur publie un namespace sur lequel les services peuvent faire de la découverte de services, requêtes DNS standard mais sans savoir qu’on parle à un orchestrateur.
   </section>
 
   <section data-markdown>
     ## commandes
-    kubectl create –f nomservice
-    kubectl get svc
+    `kubectl create –f nomservice`
+    `kubectl get svc`
   </section>
 
 </section>
@@ -248,16 +382,16 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    ## Norme PCIDSS
-    Pas conçue avec les contenants en tête.
-    Niveau de simplification vu en classe pas suffisant mais il est possible d’ajouter des outils pour segmenter le réseau, une couche de politique avec Calico, des règles de firewall en fonction des propriétés de contenants avec Bracket Computing.
-    Ex. jamais un contenant ayant l’étiquette dev ne pourrait communiquer avec un contenant ayant l’étiquette prod.
+    ## Norme PCI-DSS
+    * Pas conçue avec les contenants en tête.
+    *  Niveau de simplification vu en classe pas suffisant mais il est possible d’ajouter des outils pour segmenter le réseau, une couche de politique avec Calico, des règles de firewall en fonction des propriétés de contenants avec Bracket Computing.
+    * Ex. jamais un contenant ayant l’étiquette dev ne pourrait communiquer avec un contenant ayant l’étiquette prod.
     Mettre une couche au-dessus afin que n’importe qui ne puisse pas avoir le droit d’assigner des étiquettes, ajouter une couche de signatures.
   </section>
 
   <section data-markdown>
     ## Norme PCIDSS
-    https://www.brkt.com
-    https://www.projectcalico.org/
+    * https://www.brkt.com
+    * https://www.projectcalico.org/
   </section>
 </section>
