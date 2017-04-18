@@ -39,7 +39,10 @@ reveal_config:
     * Nuit également à la capacité d’être élastique, étaient conçues avec sizing initial selon un nombre d’utilisateurs donnés, nombre de serveurs donnés, etc.  avec une infrastructure statique.
 
     * Difficile de donner plus de capacité à une fonctionnalité plus demandant, très rare de faire du scale down.
+  </section>
 
+  <section data-markdown>
+    ## Rappel - Concepts
     * En micro-services, les composantes ne sont pas couplées solidement.
 
     * L’application est séparée en ses fonctionnalités, modules indépendants mais liés ensembles.
@@ -75,7 +78,10 @@ reveal_config:
     * Premier problème : déployer l’application.
 
     * Difficile déjà en monolithique, encore plus difficile d’avoir plusieurs applications indépendantes, utilisant des technologies indépendantes, développées par des gens différents, challenge opérationnel.
+  </section>
 
+  <section data-markdown>
+    ## Rappel - Concepts
     * Gain en flexibilité mais problème relativement grave de déploiement et c’est là que les contenants interviennent.
 
     * Rien de nouveau dans la technologie de containers elle-même mais plutôt dans la façon de les utiliser pour aider à régler le problème de distribution d’application, qui est la même raison pour laquelle on avait des containers sur les mainframes des années 70.
@@ -88,18 +94,26 @@ reveal_config:
     * Aujourd’hui, le contexte est propre à l’application, pas particulièrement complexe mais énormément de contextes d’exécution différents qu,on veut être capable de définir.
 
     * VM/CMS sur mainfarme était un container mais pas de virtualisation matérielle.
+  </section>
 
+  <section data-markdown>
+    ## Rappel - Concepts
     * Les dockerfile, définition d’image de container, pour définir les contextes d’exécution.
 
     * Majorité des cas une image de contenant n’est pas suffisante pour le service car il peut avoir des dépendances, ex une DB, serveur api, worker  chacun de ces services, aussi petits qu’ils soient, sont des applications entières avec leurs dépendances et besoins propres.
   </section>
 
   <section data-markdown>
+    ## Rappel - Concepts
     * Définir image de contenants pour chaque portion qu,on a besoin pour l’application.  Permet de définir ce qu’on a besoin pour rouler la petite application.
 
     * On règle le problème de packaging, contexte d’exécution mais pas le déploiement de ces contextes d’exécution et c’est là que l’orchestrateur intervient.
-    * Docker permet de définir le contexte d’exécution dans un mode répliquable et où on est convaincus que ce sera le même à chaque fois.
 
+    * Docker permet de définir le contexte d’exécution dans un mode répliquable et où on est convaincus que ce sera le même à chaque fois.
+  </section>
+
+  <section data-markdown>
+    ## Rappel - Concepts
     * Un container on veut qu’il soit immuable, on ne fera pas de changements dessus on va faire une autre image de contenant à la place si on a besoin d’une nouvelle version.
 
     * Capable de s’assurer que l’environnement d’exécution sera toujours le même.
@@ -158,7 +172,9 @@ reveal_config:
     * En décrivant, à l’aide de Manifest pour le déploiement et autres types d’objets, et l’envoyer au Scheduler qui décidera pour nous.
 
     * Il y a aussi moyen de faire des jobs qui rouleraient pour une durée ou selon un horaire défini, tels que des cron jobs.
+  </section>
 
+  <section data-markdown>
     * Pas besoin de mettre un cron job sur un serveur, on demande simplement au Scheduler de le démarrer au moment voulu.
 
     * On ne met jamais de cron job sur un container, on laisse l’orchestrateur partir un contenant pour rouler la job et l’arrêter une fois celle-ci terminée.
