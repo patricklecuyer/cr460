@@ -90,11 +90,15 @@ reveal_config:
     * VM/CMS sur mainfarme était un container mais pas de virtualisation matérielle.
 
     * Les dockerfile, définition d’image de container, pour définir les contextes d’exécution.
+  </section>
 
+  <section data-markdown>
+    ## Rappel - Concepts
     * Majorité des cas une image de contenant n’est pas suffisante pour le service car il peut avoir des dépendances, ex une DB, serveur api, worker  chacun de ces services, aussi petits qu’ils soient, sont des applications entières avec leurs dépendances et besoins propres.
   </section>
 
   <section data-markdown>
+    ## Rappel - Concepts
     * Définir image de contenants pour chaque portion qu,on a besoin pour l’application.  Permet de définir ce qu’on a besoin pour rouler la petite application.
 
     * On règle le problème de packaging, contexte d’exécution mais pas le déploiement de ces contextes d’exécution et c’est là que l’orchestrateur intervient.
@@ -188,7 +192,7 @@ reveal_config:
     * Objet de type déploiement, similaire au docker-compose.
 
     * Configuration d’un ou plusieurs contenants et des métadonnées autour.
-    /section>
+  </section>
 
     <section data-markdown>
       ## Deploiement
@@ -199,7 +203,7 @@ reveal_config:
     * Très près de l’infrastructure classique quand on ajoute des morceaux.
   </section>
 
-  /section>
+  </section>
 
   <section data-markdown>
     ## Deploiement
