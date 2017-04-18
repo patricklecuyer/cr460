@@ -99,7 +99,10 @@ reveal_config:
   <section data-markdown>
     ## Rappel - Concepts
     * Les dockerfile, définition d’image de container, pour définir les contextes d’exécution.
+  </section>
 
+  <section data-markdown>
+    ## Rappel - Concepts
     * Majorité des cas une image de contenant n’est pas suffisante pour le service car il peut avoir des dépendances, ex une DB, serveur api, worker  chacun de ces services, aussi petits qu’ils soient, sont des applications entières avec leurs dépendances et besoins propres.
   </section>
 
@@ -115,7 +118,10 @@ reveal_config:
   <section data-markdown>
     ## Rappel - Concepts
     * Un container on veut qu’il soit immuable, on ne fera pas de changements dessus on va faire une autre image de contenant à la place si on a besoin d’une nouvelle version.
+  </section>
 
+  <section data-markdown>
+    ## Rappel - Concepts
     * Capable de s’assurer que l’environnement d’exécution sera toujours le même.
 
     * Utile pour des pipeline de tests.
@@ -204,18 +210,22 @@ reveal_config:
     * Objet de type déploiement, similaire au docker-compose.
 
     * Configuration d’un ou plusieurs contenants et des métadonnées autour.
-    /section>
+  </section>
 
-    <section data-markdown>
+  <section data-markdown>
       ## Deploiement
-    * Un déploiement définit la structure du module applicatif (images de container, nombre de copies, si update fait un rolling update, si un service tombe reboot le contenant, quel port écouter)à un niveau très bas quels composantes représenteront le service.
+    * Un déploiement définit la structure du module applicatif
 
-    * Nombre de copies pour 2 raisons, redondance (disponibilité) ou performance (parallélisme).
+    * à un niveau très bas quels composantes représenteront le service.
+
+    * Images de container, nombre de copies
+
+    * Si update fait un rolling update, si un service tombe reboot le contenant, quel port écouter
+
+    * Nombre de copies pour 2 raisons, disponibilité via la redondance ou performance via le parallélisme.
 
     * Très près de l’infrastructure classique quand on ajoute des morceaux.
   </section>
-
-  /section>
 
   <section data-markdown>
     ## Deploiement
@@ -267,7 +277,6 @@ reveal_config:
   </section>
 
   <section data-markdown>
-    <section data-markdown>
     ## Fichier deployment - contenu
     * Le modele peut avoir des métadonnées, soit une tag disant que l’application est nginx
 
