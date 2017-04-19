@@ -1,0 +1,247 @@
+---
+title: Cours 12 - Suite Kubernetes et Révision
+description: Objet Ingress et Révision Examen Final
+theme: night
+date: 2017-4-13
+reveal_config:
+  controls: true
+  progress: true
+  transition: slide
+  slideNumber: true
+---
+<section>
+  <section data-markdown>
+    # CR460
+    ## Cours 13
+  </section>
+</section>
+
+<section>
+  <section data-markdown>
+    # Retour cours 12
+  </section>
+
+  <section data-markdown>
+    ## Concepts Déploiements  Services
+    * Entrée DNS crée service.default.svc.cluster.local pour que le pod puisse se connecter au bon endroit.
+
+    * Pour faire le lien entre le port 80 du service et l’extérieur, Kubernetes va utiliser un Ingress.
+  </section>
+
+  <section data-markdown>
+    ## Objet type Ingress
+      * Pour faire le lien entre le port 80 du service et l’extérieur, Kubernetes va utiliser un Ingress.
+
+      * Dans un Ingress, on définit le nom qu’un service va avoir, définit dans le manifeste du service.
+
+      * L’objet Ingress crée un endpoint http ou https afin qu’on puisse s’y connecter peu importe les services derrière.
+
+      * Porte d’entrée pour nos différents services.  On définit des chemins et on dit vers quel service pointer.
+  </section>
+
+  <section data-markdown>
+    ## Objet type Ingress
+      * Si un utilisateur accède le endpoint https /nginx appelle le bon service.
+
+      * Permet, à un endroit centralisé, de pointer l’utilisateur qui veut se connecter aux services, au bon service, en passant à travers une seule couche.
+
+      * Créer le Ingress à partir d’un modèle afin d’éviter les erreurs.
+  </section>
+
+  <section data-markdown>
+    ## Objet type Ingress
+      * Prend normalement, dans un contexte d’architecture classique, le rôle d’un load balancer layer 7 à l’entrée de l’application.
+
+      * Permet de terminer les connexions http/https et définir comme dans un layer 7, F 5, traduire les chemins http vers un service Kubernetes
+      et rediriger le trafic des connexions au bon endroit.
+
+      * Si on le fait dans un environnement cloud, google ou amazon, va créer un objet load balancer.
+
+      * Si l’environnement n’a pas l’objet, ex. machine locale, créerait une instance d’un reverse proxy  configuré adéquatement : nginx agproxy.
+
+      * Permettra de faire le pont entre le service interne et le reste d’internet.  Premières options sont les métadonnées version, type, nom.
+
+      * Normalement avec les Ingress on ajoute des contrôleurs qui configurent automatiquement le certificat https, les entrées DNS.
+  </section>
+
+  <section data-markdown>
+    ## Objet type Ingress - Demo
+      * Le spec va définir un certain nombre de règles, ici seulement http mais supporte https et du support TCP pur est prévu pour le futur.
+
+      * On a ensuite des chemins qui connectent à des backend via le nom du service et le port d’écoute.
+
+      * Une fois le cluster connecté, on pousse le déploiement, pour partir les pods.
+
+      * Partir le service pour associer le pod  au service nginx qui écoute sur le port 80.
+
+      * Partir l’Ingress qui va pointer vers le service en question.
+  </section>
+</section>
+
+<section>
+  <section data-markdown>
+    # Travail de session
+  </section>
+
+  <section data-markdown>
+    ## Instructions
+      * Déployer le containant Docker pour wordpress  et le configurer pour qu’il se connecte à Kubernetes, sans la db.
+
+      * Utiliser la BD de Google, Cloud SQL.
+
+      * Créer une instance mysql 2e gen, nommer wordpress et assigner une zone, plus petite machine, password root
+       et pour faciliter la vie permettre à n’importe quelle adresse ip de s’y connecter.
+
+      * Une fois le nom d’hôte assigné, on pourra le mettre dans la configuration wordpress.
+  </section>
+
+  <section data-markdown>
+    ## Instructions
+      * Vérifier qu’il y a un load balancer dans Google Cloud Neworking et ses règles.
+
+      * Vérifier règles de pare-feu pour permettre l’accès au cluster : http default allow sur all.
+
+      * Vérifier les logs du pod 'kubectl logs pod –f'
+
+      * Une fois le nom d’hôte assigné, on pourra le mettre dans la configuration wordpress.
+  </section>
+
+  <section data-markdown>
+    ## Instructions
+      * Points boni pour faire la configuration sécuritaire.
+
+      * Pour configurer un lien entre Container Engine et Cloud SQL, ça se fait avec un proxy.
+
+      * Remettre Déploiement, Ingress et Service + dockerfile.
+
+      * Une fois le nom d’hôte assigné, on pourra le mettre dans la configuration wordpress.
+  </section>
+</section>
+
+
+<section>
+  <section data-markdown>
+    # Révision Examen Final
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 1
+      * Base théorique de l’infonuagique et définitions.
+
+      * 5 caractéristiques essentielles.
+
+      * Déploiement nuagique de base
+
+      * PaaS : Caractéristiques d’Heroku qui répondent aux essentielles.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 2 3
+      * Google Instances, Scaling, Services mesurés.
+
+      * Infrastructure déclarative et Terraform.
+
+      * Contenants très importants.
+
+      * Modèles de services et de déploiement privé hybride et communautaire, qui sont les clients cibles.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 4
+      * Déploiement dans un mode PaaS.
+
+      * Concepts Google : Projet, Réseau, Adressage, Pare-feu, Instances.
+
+      * Groupe d’instances, Modèles d’Instance
+
+      * Différencier les types d’objets GCP.
+
+      * Élasticité : auto-scaling, suivre les besoins de capacité et provisionner en conséquence.
+
+      * Load-balancer équilibreur de charge Ingress.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 5
+      * Terraform concept infrastructure déclarative.
+
+      * Éléments et relations.
+
+      * GIA, types d’objets, fichiers sur disque.
+
+      * Différence entre les outils et flot.
+
+      * Savoir lire un script Terraform.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 6
+      # Contenants.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 7
+      * Concept de contenants.
+
+      * Mode classique vs isolation vs vm standard.
+
+      * Architecture micro-services.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 8
+      * Docker
+
+      * Sections du dockerfile.
+
+      * Intro docker-compose.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 9
+      * Pas dans l'examen.
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 10
+      * Exemple de dockerfile
+  </section>
+
+  <section data-markdown>
+    ## Révision - Cours 11 12
+      * Kubernetes et concept d'orchestrateur.
+
+      * Diagramme, Pods, Déploiement, Service, Ingress.
+
+      * Définir des objets autour des contenants pour avoir des déploiements automatisés.
+
+      * Différence entre Master, Node
+
+      * Séparation de l’architecture monolithique.
+
+      * Utilité des contenants.
+  </section>
+
+  <section data-markdown>
+    ## Extras - Pas pour l'examen
+      * Micro-service pour avoir un point d’entrée pour l’application,
+      toutes les méthodes d’entrée venant de l’utilisateur vont passer par un micro-service avant d’aller vers un service spécifique.
+
+      * Pour validation d’entrées, ex SQL, compliqué en mode classique, genre php avec des entrypoint partout dans le code, car plusieurs points d’entrée possible pour les données.
+
+      * Contrôles de sécurité concentrés à un endroit, dans une couche.
+
+      * Développeurs n’auront pas à se soucier de la sécurité mais avantages au niveau du contrôle et de l’interaction entre les parties de l’application.
+  </section>
+
+  <section data-markdown>
+    ## Extras
+      *  https://www.udemy.com/google-cloud-platform-essentials-training/
+
+      *  https://www.coursera.org/learn/gcp-fundamentals
+
+      *  https://play.instruqt.com/
+
+      * https://github.com/kubernetes/kops pour deployer Kubernetes sur AWS un peu comme on a fait avec GCP.
+  </section>
+</section>
