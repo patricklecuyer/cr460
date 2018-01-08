@@ -87,13 +87,15 @@ reveal_config:
 
     |Cours|Contenu|
     |-----|-------|
-    |1| Introduction à l'infonuagique|
-    |2| Introduction aux déploiements PaaS|
-    |3-4| Introduction aux déploiements IaaS|
-    |5-7| Contenants et microservices|
-    |8-11| Sécurité|
-    |9 | Présentation Google - Sécurité des contenants|
-    |12| Présentation Google - Machine Learning|
+    |1| Introduction|
+    |2| Introduction services nuagiques (IaaS + PaaS)|
+    |3-4| Introduction aux architectures nuagiques et microservices|
+    |5-6| Conteneurs et orchestration|
+    |7| Architecture de sécurité nuagique|
+    |8-9| Authentificaiton et authorisation|
+    |10| Encryption et gestion des secrets|
+    |11| Authorisation binaire|
+    |12| Surveillance de la sécurité|
     |13| Révision|
   </section>
   <section data-markdown>
@@ -103,19 +105,17 @@ reveal_config:
   |Quiz|Date|
   |-----|-------|
   |1| 6 Février|
-  |2| 27 février|
-  |3| 3 avril|
+  |2| 26 février|
+  |3| 2 avril|
   </section>
   <section data-markdown>
   ## Travail de session
 
   Travail pratique à développement lié au laboratoire.
 
-  **Présentation du travail**: 23 janvier
+  **Présentation du travail**: 22 janvier
 
-  **Date de remise**: 10 avril
-
-
+  **Date de remise**: 9 avril
 
   </section>
   <section data-markdown>
@@ -133,11 +133,13 @@ reveal_config:
    ** Date de l'examen**: 24 avril
  </section>
   <section data-markdown>
-    ##Laboratoires
-    * Laboratoires pratiques durant la majorité des cours
-    * Les laboratoires individuels ne sont pas évalués, mais permettent de mener au trvail de session
-    * Le contenu des laboratoires est matière à examen
-  </section>
+    ## Mes Attentes
+
+    - CR460 est un cours technique difficile.
+    - Les étudiants doivent prendre leur propres notes.  Les contenu des notes publiés sera minimal.
+    - N'hésitez pas à poser des questions.  Nous construirons sur les contepts de base au cours de la session.
+    - La majorité des cours seront des laboratoires et des démos. Assurez-vous de bien suivre les démos et refaire les laboratoires.
+    - Le cours explique des concepts généraux, mais les démonstrations seront faires sur Google Cloud.  Je suis dispos pour répondre aux questions sur les autres fournisseurs.
 </section>
 <section>
   <section data-markdown>
@@ -157,6 +159,7 @@ Sources: https://github.com/patricklecuyer/cr460/
 
 Les *pull requests* sont les bienvenues.  Les contributions des étudiants seront mentionnées dans les futures versions des cours.
 </section>
+
 <section data-markdown>
 ## Slack
 
@@ -164,18 +167,9 @@ Plateforme de communication et de collaboration.
 
 Cette plateforme sera utilisée en remplacement des forums Moodle dans le cadre de ce cours.
 
-Inscription:  https://cr460.patl.io/signup
-
 Accès: https://cr460.slack.com
 
-**IMPORTANT**
-
-Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
 </section>
-<section data-markdown>
-#Demo Slack
-</section>
-
   <section data-markdown>
     ## Github
 
@@ -184,15 +178,20 @@ Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
     Enregistrement: https://www.github.com
   </section>
   <section data-markdown>
-    # Demo Github
+    ## Google Cloud
+
+    Outil IaaS + PaaS utilisé dans le cours.
+
+    Enregistrement: https://cloud.google.com
   </section>
   <section data-markdown>
-    ## Heroku
+    ## Google Cloud SDK
 
-    Outil PaaS utilisé dans le cours 2.
+    Outils ligne de commande pour interagr avec Google Cloud.
 
-    Enregistrement: https://www.heroku.com
+    Enregistrement: https://cloud.google.com/sdk
   </section>
+
   <section data-markdown>
     ## Terraform
 
@@ -200,6 +199,11 @@ Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
 
     Installation et documentation: https://www.terraform.io
   </section>
+  <section data-markdown>
+    ## Inscriptions aux outils du coursera
+
+    https://goo.gl/forms/8OaT21UvGR4u3Sev2
+
 </section>
 </section>
 <section>
@@ -223,51 +227,6 @@ Utiliser votre addresse @polymtl.ca pour vous enregistrer à Slack
       * Cache la couche physique au client infonuagique.
       * Sert d’interface pour le client afin d’accéder aux caractéristiques.
   </section>
-
-  <section>
-    * Cinq caractéristiques essentielles:
-      * Libre-service sur demande
-      * Accès réseau
-      * Élasticité rapide
-      * Mise en commun des ressources
-      * Service mesuré
-  </section>
-  <section data-markdown>
-    ## Libre-service sur demande
-
-    Un client peut unilatéralement (au moment et en quantité/manière voulue) provisionner des ressources informatiques:
-     capacité de traitement / stockage / réseau, autant que nécessaire sans nécessiter une interaction humaine avec chacun des fournisseurs de service.
-   Le client décide lui-même sans le FSI.
-   Rien de pré-alloué mais FSI décide du type de ressource qu’il offre.
-
-  </section>
-  <section data-markdown>
-    ## Accès réseau
-
-    Les ressources sont disponibles depuis un réseau et accessibles en utilisant des manières standards qui promeut l’utilisation hétérogène de plateformes client légères ou lourdes (c.-à-d. téléphones intelligents, tablettes, portables, postes de travail ).
-  </section>
-  <section data-markdown>
-    ## Élasticité rapide
-
-    Les ressources peuvent être provisionnés de manière élastique et libérer, dans certains cas automatiquement, pour facilement croître où décroître la taille de l’environnement en fonction de la demande.
-    Du point de vue du client, les capacités de provisionnement peuvent paraître illimitées et le client peut s’en approprier, peu importe la quantité requise et à n’importe quel moment.
-    Utilisation hétérogène de plateformes client, légères ou lourdes (téléphone intelligent, tablette, portable, postes de travail).
-    Pas besoin d’accès physique direct.
-    Utilise des API pour pouvoir utiliser plusieurs clients.
-  </section>
-  <section data-markdown>
-    ## Mise en commun des ressources
-
-    Les ressources informatiques du fournisseur sont mises en commun pour servir plusieurs clients dans un modèle multilocataire (multi-tenant), avec différentes ressources physiques et virtuelles assignées et réassignées en fonction de la demande par les clients. Cette configuration donne un sentiment d’indépendance envers la localisation physique des ressources, le client n’ayant généralement aucun contrôle ou connaissance de la localisation géographique précise des ressources fournies, mais peut être en mesure de la spécifier à un plus haut niveau d’abstraction. (C.-à-d., pays, état, ou centre de données).
-
-  </section>
-  <section data-markdown>
-    ## Service mesuré
-
-    Les systèmes d’infonuagique contrôlent et optimisent automatiquement l’utilisation des ressources en tirant avantage d’un système de mesure de la capacité à un niveau d’abstraction approprié pour le type de service (,i.e stockage, traitement des données, bande passante, comptes usagers actifs).  L’utilisation des ressources peut être surveillée, contrôlée et des rapports peuvent être produits, fournissant une transparence autant pour le fournisseur que pour le client.
-
-  </section>
-</section>
 <section>
   <section data-markdown>
     # Modèles de service
